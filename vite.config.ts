@@ -20,6 +20,12 @@ export default defineConfig({
     react(),
     webExtension({
       manifest: generateManifest,
+      additionalInputs: [
+        'src/injectedScript/prior.ts',
+        'src/injectedScript/clientBridge.ts',
+        'src/injectedScript/resumeDevtools.ts',
+        'src/devtools/panel.html',
+      ],
     }),
   ],
   resolve: {
