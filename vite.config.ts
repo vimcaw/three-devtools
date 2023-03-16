@@ -1,14 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import webExtension, { readJsonFile } from 'vite-plugin-web-extension';
-
-function loadWebExtConfig() {
-  try {
-    return require('./.web-ext.config.json');
-  } catch {
-    return undefined;
-  }
-}
+import path from 'node:path';
 
 function generateManifest() {
   const manifest = readJsonFile('src/manifest.json');
@@ -26,9 +19,13 @@ export default defineConfig({
   plugins: [
     react(),
     webExtension({
-      assets: 'public',
-      webExtConfig: loadWebExtConfig(),
       manifest: generateManifest,
     }),
   ],
+  resolve: {
+    alias: {
+      // In dev mode, make sure fast refresh works
+      '/@react-refresh': path.resolve('node_modules/@vitejs/plugin-react-swc/refresh-runtime.js'),
+    },
+  },
 });
