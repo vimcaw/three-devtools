@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom/client';
 import { defaultTheme, Flex, ProgressCircle, Provider } from '@adobe/react-spectrum';
 import 'modern-normalize';
 import './index.css';
-import { useThreeJsData } from './store/threeJsData';
+import { ConnectionStatus, useThreeJsData } from './store/threeJsData';
 import Header from './Header';
 import NotDetectedMessage from './NotDetectedMessage';
+import Loading from './components/Loading';
 import { Theme, usePreferences } from './store/perference';
 
 function App() {
@@ -20,7 +21,11 @@ function App() {
       }
       height="100vh"
     >
-      {threeJsData.revision ? <Header /> : <NotDetectedMessage />}
+      {threeJsData.status === ConnectionStatus.Connecting ? (
+        <Loading message="Connecting to Three.js instance in the page" />
+      ) : null}
+      {threeJsData.status === ConnectionStatus.Connected ? <Header /> : null}
+      {threeJsData.status === ConnectionStatus.NotConnected ? <NotDetectedMessage /> : null}
     </Provider>
   );
 }

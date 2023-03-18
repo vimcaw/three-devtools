@@ -19,8 +19,16 @@ export class InitThreeJsBridgeMessage extends Message {
   type = 'InitThreeJsBridgeMessage';
 }
 
-export class PageReloadMessage extends Message {
-  type = 'PageReloadMessage';
+export class PageNavigationStartMessage extends Message {
+  type = 'PageNavigationStartMessage';
+}
+
+export class PageLoadedMessage extends Message {
+  type = 'PageLoadedMessage';
+}
+
+export class PageCompletelyLoadedMessage extends Message {
+  type = 'PageCompletelyLoadedMessage';
 }
 
 export class ThreeJsResumeMessage extends Message {

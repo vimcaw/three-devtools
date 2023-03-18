@@ -1,6 +1,12 @@
 import browser from 'webextension-polyfill';
 import type { Runtime } from 'webextension-polyfill';
-import { ConnectDevtoolsMessage, Message, PageReloadMessage } from './messages';
+import {
+  ConnectDevtoolsMessage,
+  Message,
+  PageCompletelyLoadedMessage,
+  PageNavigationStartMessage,
+  PageLoadedMessage,
+} from './messages';
 import { PortName } from './types';
 import { deserializeMessage } from './utils';
 
@@ -74,6 +80,16 @@ browser.runtime.onConnect.addListener(port => {
   });
 });
 
+browser.webNavigation.onCommitted.addListener(({ tabId, frameId }) => {
+  // Only support top-level frame for now
+  if (frameId !== 0 || !tabId) {
+    return;
+  }
+  PortManger.postMessage(tabId, PortName.Devtools, new PageNavigationStartMessage(), {
+    ignoreError: true,
+  });
+});
+
 /**
  * When a page has reloaded, if three-devtools are open, notify
  * the devtools panel, so it can inject the content-side of the tools.
@@ -83,7 +99,17 @@ browser.webNavigation.onDOMContentLoaded.addListener(({ tabId, frameId }) => {
   if (frameId !== 0 || !tabId) {
     return;
   }
-  PortManger.postMessage(tabId, PortName.Devtools, new PageReloadMessage(), {
+  PortManger.postMessage(tabId, PortName.Devtools, new PageLoadedMessage(), {
+    ignoreError: true,
+  });
+});
+
+browser.webNavigation.onCompleted.addListener(({ tabId, frameId }) => {
+  // Only support top-level frame for now
+  if (frameId !== 0 || !tabId) {
+    return;
+  }
+  PortManger.postMessage(tabId, PortName.Devtools, new PageCompletelyLoadedMessage(), {
     ignoreError: true,
   });
 });

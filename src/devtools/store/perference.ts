@@ -27,13 +27,11 @@ export const preferences = proxy(defaultPreferences);
 
 browser.storage.sync.get(PREFERENCES_STORAGE_KEY).then(data => {
   if (data[PREFERENCES_STORAGE_KEY]) {
-    console.log('-> data', data[PREFERENCES_STORAGE_KEY]);
     Object.assign(preferences, data[PREFERENCES_STORAGE_KEY]);
   }
 });
 
 browser.storage.onChanged.addListener((changes, areaName) => {
-  console.log('-> onChanged', changes, areaName);
   if (areaName === 'sync' && changes[PREFERENCES_STORAGE_KEY]) {
     Object.assign(preferences, changes[PREFERENCES_STORAGE_KEY].newValue);
   }
