@@ -1,0 +1,14 @@
+.code {
+  background-color: #ffeccc;
+  color: #cb5d00;
+  font-weight: bold;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .code {
+    background-color: #481804;
+    color: #e87400;
+  }
+}
