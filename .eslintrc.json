@@ -9,7 +9,11 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "rules": {},
+  "rules": {
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-props-no-spreading": "off"
+  },
   "overrides": [
     {
       "files": ["vite.config.ts"],
