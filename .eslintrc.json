@@ -30,6 +30,12 @@
         "import/no-extraneous-dependencies": "off",
         "global-require": "off"
       }
+    },
+    {
+      "files": ["reset.d.ts"],
+      "rules": {
+        "import/no-extraneous-dependencies": "off"
+      }
     }
   ]
 }

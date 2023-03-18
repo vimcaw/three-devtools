@@ -6,6 +6,7 @@ specifiers:
   '@commitlint/config-conventional': ^17.4.4
   '@spectrum-icons/illustrations': ^3.6.0
   '@spectrum-icons/workflow': ^4.1.0
+  '@total-typescript/ts-reset': ^0.4.2
   '@types/lodash-es': ^4.17.7
   '@types/react': ^18.0.28
   '@types/react-dom': ^18.0.11
@@ -53,6 +54,7 @@ dependencies:
 devDependencies:
   '@commitlint/cli': 17.4.4
   '@commitlint/config-conventional': 17.4.4
+  '@total-typescript/ts-reset': 0.4.2
   '@types/lodash-es': 4.17.7
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
@@ -3330,6 +3332,10 @@ packages:
     engines: {node: '>=14.16'}
     dependencies:
       defer-to-connect: 2.0.1
+    dev: true
+
+  /@total-typescript/ts-reset/0.4.2:
+    resolution: {integrity: sha512-vqd7ZUDSrXFVT1n8b2kc3LnklncDQFPvR58yUS1kEP23/nHPAO9l1lMjUfnPrXYYk4Hj54rrLKMW5ipwk7k09A==}
     dev: true
 
   /@tsconfig/node10/1.0.9:
