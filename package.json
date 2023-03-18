@@ -12,7 +12,10 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
+    "@adobe/react-spectrum": "^3.25.1",
+    "@spectrum-icons/illustrations": "^3.6.0",
     "class-transformer": "^0.5.1",
+    "modern-normalize": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "webextension-polyfill": "^0.10.0"
