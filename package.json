@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite dev",
     "build": "tsc && vite build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "preinstall": "npx only-allow pnpm"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
