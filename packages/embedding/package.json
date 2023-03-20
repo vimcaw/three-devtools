@@ -1,0 +1,24 @@
+{
+  "name": "embedding",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "tsc",
+    "preview": "vite preview",
+    "preinstall": "npx only-allow pnpm"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react-swc": "^3.0.0",
+    "typescript": "^4.9.3",
+    "vite": "^4.2.0"
+  }
+}

@@ -1,8 +1,8 @@
 import browser from 'webextension-polyfill';
+import type { ThreeJsClientAdapter } from 'core';
 import {
   ConnectDevtoolsMessage,
   InitThreeJsBridgeMessage,
-  PageCompletelyLoadedMessage,
   PageNavigationStartMessage,
   PageLoadedMessage,
   ThreeJsRegisteredMessage,
@@ -11,9 +11,21 @@ import {
 import { PortName } from '../types';
 import { deserializeMessage } from '../utils';
 
-export default class DevtoolsPort extends EventTarget {
-  constructor() {
+export class DevtoolsPort extends EventTarget {
+  private constructor() {
     super();
+  }
+
+  static #instance?: DevtoolsPort;
+
+  static get instance() {
+    if (!DevtoolsPort.#instance) {
+      DevtoolsPort.#instance = new DevtoolsPort();
+    }
+    return DevtoolsPort.#instance!;
+  }
+
+  connectToDevtoolsApp(threeJsClientAdapter: ThreeJsClientAdapter) {
     // Because the connection event from devtool is not a tabId field,
     // so we need to send it to the background port manually.
     this.initializeConnection();
@@ -21,29 +33,20 @@ export default class DevtoolsPort extends EventTarget {
       const message = deserializeMessage(rawMessage);
       if (!message) return;
       if (message instanceof PageNavigationStartMessage) {
-        this.onDisconnect?.();
+        threeJsClientAdapter.emit('disconnected');
       } else if (message instanceof PageLoadedMessage) {
         this.initializeConnection();
-        this.onConnectionStart?.();
-      } else if (message instanceof PageCompletelyLoadedMessage) {
-        this.onPageCompletelyLoaded?.();
       } else if (message instanceof ThreeJsResumeMessage) {
-        this.onConnected?.(message.threeJsClientInfo);
+        threeJsClientAdapter.emit('connected', {
+          version: `r${message.threeJsClientInfo.revision}`,
+        });
       } else if (message instanceof ThreeJsRegisteredMessage) {
-        this.onConnected?.(message);
+        threeJsClientAdapter.emit('connected', { version: `r${message.revision}` });
       }
     });
   }
 
   port = browser.runtime.connect({ name: PortName.Devtools });
-
-  onDisconnect?: () => void;
-
-  onConnectionStart?: () => void;
-
-  onPageCompletelyLoaded?: () => void;
-
-  onConnected?: (threeJsInfo: { revision: string }) => void;
 
   initializeConnection() {
     this.port.postMessage(new ConnectDevtoolsMessage(browser.devtools.inspectedWindow.tabId));

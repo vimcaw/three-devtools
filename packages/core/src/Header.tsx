@@ -10,7 +10,7 @@ export default function Header() {
       <Flex justifyContent="space-between" alignItems="center">
         <Text>Scene</Text>
         <View>
-          Three.js <code>r{threeJsData.revision}</code>
+          Three.js <code>{threeJsData.version}</code>
         </View>
         <PreferencesButton />
       </Flex>
