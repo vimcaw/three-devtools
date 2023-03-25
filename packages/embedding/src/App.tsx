@@ -6,6 +6,7 @@ import localforage from 'localforage';
 const DEFAULT_DEVTOOLS_PANEL_WIDTH = 300;
 const MIN_DEVTOOLS_PANEL_WIDTH = 200;
 
+const STORAGE_KEY_EXPANDED = 'expanded';
 const STORAGE_KEY_PANEL_WIDTH = 'panelWidth';
 
 const Panel = styled.div<{ width?: number }>`
@@ -54,7 +55,7 @@ const ResizeMask = styled.div`
 `;
 
 function App() {
-  const [isDevToolsPanelExpanded, setIsDevToolsPanelExpanded] = useState(false);
+  const [isDevToolsPanelExpanded, setIsDevToolsPanelExpanded] = useState<boolean>();
   const [devToolsPanelWidth, setDevToolsPanelWidth] = useState<number>();
   const [isDevToolsPanelResizing, setIsDevToolsPanelResizing] = useState(false);
   const resizingInitialInfo = useRef<{ x: number; width: number } | null>(null);
@@ -93,8 +94,18 @@ function App() {
       // Restore the width from local storage.
       const width = await localforage.getItem<number>(STORAGE_KEY_PANEL_WIDTH);
       setDevToolsPanelWidth(width ?? DEFAULT_DEVTOOLS_PANEL_WIDTH);
+      const expanded = await localforage.getItem<boolean>(STORAGE_KEY_EXPANDED);
+      if (expanded !== null) {
+        setIsDevToolsPanelExpanded(expanded);
+      }
     })();
   }, []);
+
+  useEffect(() => {
+    if (isDevToolsPanelExpanded === undefined) return;
+    // Save the expanded state to local storage.
+    localforage.setItem(STORAGE_KEY_EXPANDED, isDevToolsPanelExpanded);
+  }, [isDevToolsPanelExpanded]);
 
   return (
     <Panel width={devToolsPanelWidth}>
