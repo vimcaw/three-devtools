@@ -8,7 +8,8 @@
   ],
   "scripts": {
     "dev:browser-extension": "turbo run dev --filter browser-extension",
-    "dev:embedding": "turbo run dev  --filter embedding",
+    "dev:embedding": "turbo run dev  --filter examples",
+    "dev:examples": "turbo run dev --filter examples",
     "build:browser-extension": "turbo run build --filter browser-extension",
     "build:embedding": "turbo run build --filter embedding",
     "build": "turbo run build",
