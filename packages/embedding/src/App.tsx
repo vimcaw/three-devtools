@@ -18,20 +18,30 @@ const Panel = styled.div<{ width?: number }>`
 const expandButtonSize = 20;
 const expandButtonStrokeWidth = 2;
 const expandButtonPureSize = expandButtonSize - expandButtonStrokeWidth / 2;
-const ExpandButton = styled.svg`
+const ExpandButton = styled.button`
   position: absolute;
   top: 0;
   right: 0;
-  width: ${expandButtonSize}px;
-  height: ${expandButtonSize}px;
+  display: block;
+  padding: 0;
+  line-height: 1;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  background: none;
   cursor: pointer;
   z-index: 1000;
   user-select: none;
-  polygon {
-    fill: #000;
-    stroke: #fff;
-    stroke-width: ${expandButtonStrokeWidth}px;
-    stroke-linejoin: miter;
+  &,
+  svg {
+    width: ${expandButtonSize}px;
+    height: ${expandButtonSize}px;
+    polygon {
+      fill: #000;
+      stroke: #fff;
+      stroke-width: ${expandButtonStrokeWidth}px;
+      stroke-linejoin: miter;
+    }
   }
 `;
 const resizeHandleWidth = 10;
@@ -110,9 +120,11 @@ function App() {
   return (
     <Panel width={devToolsPanelWidth}>
       <ExpandButton onClick={() => setIsDevToolsPanelExpanded(!isDevToolsPanelExpanded)}>
-        <polygon
-          points={`0,0 ${expandButtonPureSize},0 ${expandButtonPureSize},${expandButtonPureSize}`}
-        />
+        <svg>
+          <polygon
+            points={`0,0 ${expandButtonPureSize},0 ${expandButtonPureSize},${expandButtonPureSize}`}
+          />
+        </svg>
       </ExpandButton>
       <ResizeHandle
         onMouseDown={e => {
