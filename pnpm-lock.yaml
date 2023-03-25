@@ -95,6 +95,7 @@ importers:
       modern-normalize: ^1.1.0
       react: ^18.2.0
       react-dom: ^18.2.0
+      shared: workspace:*
       ts-toolbelt: ^9.6.0
       tsconfig: workspace:*
       typescript: ^4.9.4
@@ -106,6 +107,7 @@ importers:
       lodash-es: 4.17.21
       mitt: 3.0.0_24uran6cqz4gfrq4gylmryrl2a
       modern-normalize: 1.1.0
+      shared: link:../shared
       ts-toolbelt: 9.6.0
       valtio: 1.10.3_react@18.2.0
     devDependencies:
@@ -121,12 +123,14 @@ importers:
 
   packages/embedding:
     specifiers:
+      '@types/lodash-es': ^4.17.7
       '@types/react': ^18.0.28
       '@types/react-dom': ^18.0.11
       '@types/styled-components': ^5.1.26
       '@vitejs/plugin-react-swc': ^3.0.0
       core: workspace:*
       localforage: ^1.10.0
+      lodash-es: ^4.17.21
       react: ^18.2.0
       react-dom: ^18.2.0
       shared: workspace:*
@@ -137,11 +141,13 @@ importers:
     dependencies:
       core: link:../core
       localforage: 1.10.0
+      lodash-es: 4.17.21
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       shared: link:../shared
       styled-components: 5.3.9_biqbaboplfbrettd7655fr4n2y
     devDependencies:
+      '@types/lodash-es': 4.17.7
       '@types/react': 18.0.28
       '@types/react-dom': 18.0.11
       '@types/styled-components': 5.1.26
@@ -206,6 +212,9 @@ importers:
   packages/shared:
     specifiers:
       '@types/three': ^0.149.0
+      ts-pattern: ^4.2.2
+    dependencies:
+      ts-pattern: 4.2.2
     devDependencies:
       '@types/three': 0.149.0
 
@@ -8526,6 +8535,10 @@ packages:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: true
+
+  /ts-pattern/4.2.2:
+    resolution: {integrity: sha512-qzJMo2pbkUJWusRH5o8xR+xogn6RmvViyUgwBFTtRENLse470clCGjHDf6haWGZ1AOmk8XkEohUoBW8Uut6Scg==}
+    dev: false
 
   /ts-toolbelt/9.6.0:
     resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}

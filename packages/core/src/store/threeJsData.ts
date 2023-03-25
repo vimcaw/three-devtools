@@ -1,4 +1,6 @@
-import { proxy, useSnapshot } from 'valtio';
+import { proxy, ref, useSnapshot } from 'valtio';
+import type { Renderer, Scene } from 'three';
+import { matchThreeJsObject } from 'shared';
 import { ThreeJsClientAdapter } from '../ThreeJsClientAdapter';
 
 export enum ConnectionStatus {
@@ -9,6 +11,10 @@ export enum ConnectionStatus {
 export const threeJsData = proxy({
   status: ConnectionStatus.NotConnected,
   version: null as string | null,
+  renderers: [] as Renderer[],
+  scenes: [] as Scene[],
+  activeRenderer: null as Renderer | null,
+  activeScene: null as Scene | null,
 });
 
 ThreeJsClientAdapter.instance.on('connected', ({ version }) => {
@@ -18,8 +24,16 @@ ThreeJsClientAdapter.instance.on('connected', ({ version }) => {
 
 ThreeJsClientAdapter.instance.on('observer', ({ target }) => {
   threeJsData.status = ConnectionStatus.Connected;
-  // TODO sort the target
-  console.log(target);
+  matchThreeJsObject(target, {
+    onMatchRenderer: renderer => {
+      threeJsData.renderers.push(ref(renderer));
+      threeJsData.activeRenderer = ref(renderer);
+    },
+    onMatchScene: scene => {
+      threeJsData.scenes.push(ref(scene));
+      threeJsData.activeScene = ref(scene);
+    },
+  });
 });
 
 ThreeJsClientAdapter.instance.on('disconnected', () => {

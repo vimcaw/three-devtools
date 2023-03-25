@@ -23,6 +23,7 @@
     "lodash-es": "^4.17.21",
     "mitt": "^3.0.0",
     "modern-normalize": "^1.1.0",
+    "shared": "workspace:*",
     "ts-toolbelt": "^9.6.0",
     "valtio": "^1.10.3"
   },

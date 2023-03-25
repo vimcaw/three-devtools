@@ -13,7 +13,7 @@ class DevToolsEvent extends EventTarget {
       return true;
     }
     if (event.type === 'register') {
-      this.threeJsClientAdapter.emit('connected', { version: event.detail.revision });
+      this.threeJsClientAdapter.emit('connected', { version: `r${event.detail.revision}` });
     } else if (event.type === 'observe') {
       this.threeJsClientAdapter.emit('observer', { target: event.detail });
     }

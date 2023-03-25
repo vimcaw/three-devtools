@@ -8,9 +8,9 @@ export default function Header() {
   return (
     <View paddingX="size-200" paddingY="size-100">
       <Flex justifyContent="space-between" alignItems="center">
-        <Text>Scene</Text>
         <View>
-          Three.js <code>{threeJsData.version}</code>
+          <Text>Three.js </Text>
+          <code>{threeJsData.version}</code>
         </View>
         <PreferencesButton />
       </Flex>
