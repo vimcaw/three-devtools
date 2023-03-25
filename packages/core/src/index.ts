@@ -1,4 +1,5 @@
 import App from './App';
 import { ThreeJsClientAdapter } from './ThreeJsClientAdapter';
+import { StorageAdapter } from './StorageAdapter';
 
-export { App, ThreeJsClientAdapter };
+export { App, StorageAdapter, ThreeJsClientAdapter };

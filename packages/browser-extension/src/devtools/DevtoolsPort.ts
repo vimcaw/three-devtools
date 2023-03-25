@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill';
-import type { ThreeJsClientAdapter } from 'core';
+import type { StorageAdapter, ThreeJsClientAdapter } from 'core';
 import {
   ConnectDevtoolsMessage,
   InitThreeJsBridgeMessage,
@@ -25,7 +25,21 @@ export class DevtoolsPort extends EventTarget {
     return DevtoolsPort.#instance!;
   }
 
-  connectToDevtoolsApp(threeJsClientAdapter: ThreeJsClientAdapter) {
+  connectToDevtoolsApp(storageAdapter: StorageAdapter, threeJsClientAdapter: ThreeJsClientAdapter) {
+    storageAdapter.initialize({
+      getItem: key => browser.storage.sync.get(key).then(data => data[key]),
+      setItem: (key, value) => browser.storage.sync.set({ [key]: value }),
+      removeItem: key => browser.storage.sync.remove(key),
+      clear: () => browser.storage.sync.clear(),
+    });
+    browser.storage.onChanged.addListener((changes, areaName) => {
+      if (areaName === 'sync') {
+        Object.entries(changes).forEach(([key, { oldValue, newValue }]) => {
+          storageAdapter.emitter.emit('changed', { key, oldValue, newValue });
+        });
+      }
+    });
+
     // Because the connection event from devtool is not a tabId field,
     // so we need to send it to the background port manually.
     this.initializeConnection();

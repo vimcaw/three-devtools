@@ -1,7 +1,7 @@
 import { proxy, subscribe, useSnapshot } from 'valtio';
-import browser from 'webextension-polyfill';
 import type { O } from 'ts-toolbelt';
 import { merge } from 'lodash-es';
+import { StorageAdapter } from '../StorageAdapter';
 
 export enum Theme {
   Auto = 'auto',
@@ -25,21 +25,22 @@ const PREFERENCES_STORAGE_KEY = 'preferences';
 
 export const preferences = proxy(defaultPreferences);
 
-browser.storage.sync.get(PREFERENCES_STORAGE_KEY).then(data => {
-  if (data[PREFERENCES_STORAGE_KEY]) {
-    Object.assign(preferences, data[PREFERENCES_STORAGE_KEY]);
+StorageAdapter.instance.on('initialized', async () => {
+  const data = await StorageAdapter.instance.getItem?.(PREFERENCES_STORAGE_KEY);
+  if (data) {
+    Object.assign(preferences, data);
   }
 });
 
-browser.storage.onChanged.addListener((changes, areaName) => {
-  if (areaName === 'sync' && changes[PREFERENCES_STORAGE_KEY]) {
-    Object.assign(preferences, changes[PREFERENCES_STORAGE_KEY].newValue);
+StorageAdapter.instance.on('changed', ({ key, newValue }) => {
+  if (key === PREFERENCES_STORAGE_KEY) {
+    Object.assign(preferences, newValue);
   }
 });
 
 // Store preferences in sync storage
 subscribe(preferences, () => {
-  browser.storage.sync.set({ [PREFERENCES_STORAGE_KEY]: preferences });
+  StorageAdapter.instance.setItem(PREFERENCES_STORAGE_KEY, preferences);
 });
 
 export function usePreferences() {
