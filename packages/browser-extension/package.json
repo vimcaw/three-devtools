@@ -13,6 +13,7 @@
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
+    "@adobe/react-spectrum": "^3.25.1",
     "class-transformer": "^0.5.1",
     "core": "workspace:*",
     "modern-normalize": "^1.1.0",
