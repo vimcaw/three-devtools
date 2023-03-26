@@ -3,11 +3,13 @@ import 'modern-normalize';
 import './index.css';
 import type { Scene } from 'three';
 import { useMedia } from 'react-use';
+import { Object3D } from 'three';
 import { ConnectionStatus, useThreeJsData } from './store/threeJsData';
 import Header from './Header';
 import NotDetectedMessage from './NotDetectedMessage';
 import { Theme, usePreferences } from './store/perference';
 import SceneTree from './SceneTree';
+import PropertiesPanel from './PropertiesPanel';
 
 function App() {
   const preferences = usePreferences();
@@ -30,6 +32,9 @@ function App() {
       <Layout style={{ height: '100%' }}>
         {threeJsData.status === ConnectionStatus.Connected ? <Header /> : <NotDetectedMessage />}
         {threeJsData.activeScene && <SceneTree scene={threeJsData.activeScene as Scene} />}
+        {threeJsData.selectedObject && (
+          <PropertiesPanel object={threeJsData.selectedObject as Object3D} />
+        )}
       </Layout>
     </ConfigProvider>
   );
