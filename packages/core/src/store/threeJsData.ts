@@ -1,5 +1,5 @@
 import { proxy, ref, useSnapshot } from 'valtio';
-import type { Renderer, Scene } from 'three';
+import type { Object3D, Renderer, Scene } from 'three';
 import { matchThreeJsObject } from 'shared';
 import { ThreeJsClientAdapter } from '../ThreeJsClientAdapter';
 
@@ -15,6 +15,7 @@ export const threeJsData = proxy({
   scenes: [] as Scene[],
   activeRenderer: null as Renderer | null,
   activeScene: null as Scene | null,
+  selectedObject: null as Object3D | null,
 });
 
 ThreeJsClientAdapter.instance.on('connected', ({ version }) => {
@@ -48,4 +49,8 @@ ThreeJsClientAdapter.instance.on('error', () => {
 
 export function useThreeJsData() {
   return useSnapshot(threeJsData);
+}
+
+export function setSelectedObject(object: Object3D | null) {
+  threeJsData.selectedObject = object;
 }

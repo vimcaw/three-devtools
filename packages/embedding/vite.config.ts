@@ -4,7 +4,20 @@ import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), dts({ compilerOptions: { moduleResolution: 99 } })],
+  plugins: [
+    react({
+      plugins: [
+        [
+          '@swc/plugin-styled-components',
+          {
+            displayName: true,
+            ssr: true,
+          },
+        ],
+      ],
+    }),
+    dts({ compilerOptions: { moduleResolution: 99 } }),
+  ],
   build: {
     lib: {
       entry: './src/main.tsx',

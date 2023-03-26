@@ -1,23 +1,31 @@
-import {
-  ActionButton,
-  Dialog,
-  DialogTrigger,
-  SpectrumActionButtonProps,
-} from '@adobe/react-spectrum';
-import Settings from '@spectrum-icons/workflow/Settings';
+import { Button, Modal } from 'antd';
+import { SettingOutlined } from '@ant-design/icons';
+import { ComponentProps, useState } from 'react';
 import Preferences from '../Peferences';
 
-export default function PreferencesButton(props: SpectrumActionButtonProps) {
+export default function PreferencesButton({
+  buttonProps = {},
+}: {
+  buttonProps?: ComponentProps<typeof Button>;
+}) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   return (
-    <DialogTrigger>
-      <ActionButton isQuiet {...props}>
-        <Settings />
-      </ActionButton>
-      {close => (
-        <Dialog>
-          <Preferences close={close} />
-        </Dialog>
-      )}
-    </DialogTrigger>
+    <>
+      <Button
+        type="text"
+        icon={<SettingOutlined />}
+        onClick={() => setIsModalVisible(true)}
+        {...buttonProps}
+      />
+      <Modal
+        title="Preferences"
+        open={isModalVisible}
+        onOk={() => setIsModalVisible(false)}
+        onCancel={() => setIsModalVisible(false)}
+      >
+        <Preferences />
+      </Modal>
+    </>
   );
 }

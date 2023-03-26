@@ -1,19 +1,31 @@
-import { Flex, Text, View } from '@adobe/react-spectrum';
+import styled from 'styled-components';
+import { Layout, theme } from 'antd';
 import { useThreeJsData } from './store/threeJsData';
 import PreferencesButton from './components/PreferencesButton';
 
+const Container = styled(Layout.Header)`
+  padding: 5px 2px 5px 10px;
+  height: auto;
+  margin-bottom: 10px;
+  line-height: normal;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export default function Header() {
   const threeJsData = useThreeJsData();
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
   return (
-    <View paddingX="size-200" paddingY="size-100">
-      <Flex justifyContent="space-between" alignItems="center">
-        <View>
-          <Text>Three.js </Text>
-          <code>{threeJsData.version}</code>
-        </View>
-        <PreferencesButton />
-      </Flex>
-    </View>
+    <Container style={{ backgroundColor: colorBgContainer }}>
+      <div>
+        <span>Three.js </span>
+        <code>{threeJsData.version}</code>
+      </div>
+      <PreferencesButton />
+    </Container>
   );
 }

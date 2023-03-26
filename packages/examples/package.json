@@ -16,6 +16,7 @@
     "three": "^0.150.1"
   },
   "devDependencies": {
+    "@swc/plugin-styled-components": "^1.5.49",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@types/three": "^0.149.0",
