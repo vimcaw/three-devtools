@@ -15,6 +15,8 @@ const Panel = styled.div<{ width?: number }>`
   bottom: 0;
   right: 0;
   width: ${({ width }) => width ?? DEFAULT_DEVTOOLS_PANEL_WIDTH}px;
+  
+  overflow-y: auto;
 `;
 const expandButtonSize = 20;
 const expandButtonStrokeWidth = 2;

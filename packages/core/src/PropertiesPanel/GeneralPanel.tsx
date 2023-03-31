@@ -1,6 +1,6 @@
 import { Card, Descriptions } from 'antd';
 import type { Object3D } from 'three';
-import VectorProperty from './Properties/VectorProperty';
+import {VectorProperty} from './Properties/VectorProperty';
 import BooleanProperty from './Properties/BooleanProperty';
 
 export default function GeneralPanel({ object }: { object: Object3D }) {
@@ -15,13 +15,25 @@ export default function GeneralPanel({ object }: { object: Object3D }) {
           <BooleanProperty object={object} propName="visible" />
         </Descriptions.Item>
         <Descriptions.Item label="Position">
-          <VectorProperty value={object.position} />
+          <VectorProperty
+            value={object.position}
+            object={object}
+            fieldName="position"
+          />
         </Descriptions.Item>
         <Descriptions.Item label="Rotation">
-          <VectorProperty value={object.rotation} />
+          <VectorProperty
+            value={object.rotation}
+            object={object}
+            fieldName="rotation"
+          />
         </Descriptions.Item>
         <Descriptions.Item label="Scale">
-          <VectorProperty value={object.scale} />
+          <VectorProperty
+            value={object.scale}
+            object={object}
+            fieldName="scale"
+          />
         </Descriptions.Item>
       </Descriptions>
     </Card>
