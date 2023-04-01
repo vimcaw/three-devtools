@@ -4,12 +4,19 @@ import './index.css';
 import type { Scene } from 'three';
 import { useMedia } from 'react-use';
 import { Object3D } from 'three';
-import { ConnectionStatus, useThreeJsData } from './store/threeJsData';
+import {useState} from "react";
+import {ConnectionStatus, observerLayer, useThreeJsData} from './store/threeJsData';
 import Header from './Header';
 import NotDetectedMessage from './NotDetectedMessage';
 import { Theme, usePreferences } from './store/perference';
-import SceneTree from './SceneTree';
-import PropertiesPanel from './PropertiesPanel';
+import SceneTree from './SceneTree/SceneTree';
+import {PropertyPanel as PropertiesPanel} from './PropertiesPanel';
+import {RenderInfo} from "./PropertiesPanel/RenderInfo";
+
+function useForceUpdate(){
+  const [value, setValue] = useState(0);
+  return () => setValue(value => value + 1);
+}
 
 function App() {
   const preferences = usePreferences();
@@ -18,6 +25,8 @@ function App() {
   const autoThemeAlgorithm = isSystemDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm;
   const customThemeAlgorithm =
     preferences.appearance.theme === Theme.Dark ? theme.darkAlgorithm : theme.defaultAlgorithm;
+
+  observerLayer.refreshUI = useForceUpdate()
 
   return (
     <ConfigProvider
@@ -29,12 +38,13 @@ function App() {
           preferences.appearance.theme === Theme.Auto ? autoThemeAlgorithm : customThemeAlgorithm,
       }}
     >
-      <Layout style={{ height: '100%' }}>
+      <Layout style={{ minHeight: '100%' }}>
         {threeJsData.status === ConnectionStatus.Connected ? <Header /> : <NotDetectedMessage />}
         {threeJsData.activeScene && <SceneTree scene={threeJsData.activeScene as Scene} />}
         {threeJsData.selectedObject && (
           <PropertiesPanel object={threeJsData.selectedObject as Object3D} />
         )}
+        {threeJsData.activeRenderer && <RenderInfo render={threeJsData.activeRenderer} />}
       </Layout>
     </ConfigProvider>
   );
