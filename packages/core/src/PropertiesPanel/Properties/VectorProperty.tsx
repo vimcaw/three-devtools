@@ -29,7 +29,7 @@ export function VectorProperty(props: IVec3Props) {
   const [x, setX] = useState(0)
   const [y, setY] = useState(0)
   const [z, setZ] = useState(0)
-  const [useNativeV, setUseNativeV] = useState(false)
+  const [useNativeV, setUseNativeV] = useState(true)
 
   const updateVec = (k: "x" | "y" | "z") => {
     const node = observerLayer.findNode(object.uuid)
@@ -69,6 +69,7 @@ export function VectorProperty(props: IVec3Props) {
       <StyledDiv>
         X:
         <StyledInput
+
           value={useNativeV ? object[fieldName].x : x}
           onChange={(v) => onChange("x", v)}
           onBlur={() => updateVec("x")}

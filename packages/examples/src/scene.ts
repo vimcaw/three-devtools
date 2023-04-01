@@ -16,7 +16,14 @@ export class DefaultScene {
     const material = new MeshStandardMaterial({ color: 0xffffff });
     const light = new HemisphereLight(0xffffff, 0x000000, 1);
     light.position.set(5, 5, 5);
-    this.cube = new Mesh(geometry, material);
+    this.cube = new Mesh(geometry, material)
+
+    for (let i = 0; i < 5; i ++) {
+      const m = new Mesh(geometry, material);
+      m.position.set(i, i, i);
+      this.scene.add(m)
+    }
+
     this.scene.add(this.cube);
     this.scene.add(light);
     this.onResize = this.onResize.bind(this);

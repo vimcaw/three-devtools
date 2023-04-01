@@ -2,8 +2,9 @@ import type { Object3D, Scene } from 'three';
 import {Card, Tree, TreeProps} from 'antd';
 import {RedoOutlined} from "@ant-design/icons"
 import { useMemo } from 'react';
-import {observerLayer, setSelectedObject} from '../store/threeJsData';
 import styled from "styled-components";
+import {observerLayer, setSelectedObject} from '../store/threeJsData';
+import {DEBUG_GROUP_NAME} from "../Drawer/Picker";
 
 type SceneTreeData = Exclude<TreeProps['treeData'], undefined>[number] & {
   children?: SceneTreeData[];
@@ -11,12 +12,14 @@ type SceneTreeData = Exclude<TreeProps['treeData'], undefined>[number] & {
 };
 
 function getTreeData(scene: Object3D): SceneTreeData[] {
-  return scene.children.map(child => ({
-    title: child.type,
-    key: child.uuid,
-    children: child.children.length ? getTreeData(child) : undefined,
-    object: child,
-  }));
+  return scene.children
+    .filter((o => o.name !== DEBUG_GROUP_NAME))
+    .map(child => ({
+      title: child.type + (child.name ? ` [${child.name}]` : ""),
+      key: child.uuid,
+      children: child.children.length ? getTreeData(child) : undefined,
+      object: child,
+    }));
 }
 
 const HeaderWrapper = styled.div`
@@ -36,7 +39,7 @@ const Header = (
 
 export default function SceneTree({ scene }: { scene: Scene }) {
   return (
-    <Card title={Header} size="small" style={{ marginTop: 10 }}>
+    <Card title={Header} size="small">
       <Tree<SceneTreeData>
         treeData={getTreeData(scene)}
         onSelect={(_, { selectedNodes }) => {
