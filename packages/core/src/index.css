@@ -5,7 +5,3 @@ button {
 button:disabled {
   cursor: not-allowed !important;
 }
-
-::-webkit-scrollbar {
-  width: 0px;
-}

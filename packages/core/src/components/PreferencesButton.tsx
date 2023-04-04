@@ -1,5 +1,5 @@
 import { Button, Modal } from 'antd';
-import { SettingOutlined } from '@ant-design/icons';
+import {DragOutlined, SettingOutlined} from '@ant-design/icons';
 import { ComponentProps, useState } from 'react';
 import Preferences from '../Peferences';
 

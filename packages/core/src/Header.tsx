@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { Layout, theme } from 'antd';
+import {Button, Layout, theme} from 'antd';
+import {DragOutlined} from "@ant-design/icons";
 import { useThreeJsData } from './store/threeJsData';
 import PreferencesButton from './components/PreferencesButton';
 
@@ -25,7 +26,21 @@ export default function Header() {
         <span>Three.js </span>
         <code>{threeJsData.version}</code>
       </div>
-      <PreferencesButton />
+      <div
+        style={{
+          marginRight: "5px"
+        }}
+      >
+        <Button
+          type="text"
+          className="draggable"
+          icon={<DragOutlined />}
+          style={{
+            cursor: "pointer"
+          }}
+        />
+        <PreferencesButton />
+      </div>
     </Container>
   );
 }

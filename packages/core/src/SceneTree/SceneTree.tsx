@@ -1,9 +1,9 @@
 import type { Object3D, Scene } from 'three';
 import {Card, Tree, TreeProps} from 'antd';
-import {RedoOutlined} from "@ant-design/icons"
+import {DeleteOutlined, RedoOutlined} from "@ant-design/icons"
 import { useMemo } from 'react';
 import styled from "styled-components";
-import {observerLayer, setSelectedObject} from '../store/threeJsData';
+import {observerLayer, picker, setSelectedObject} from '../store/threeJsData';
 import {DEBUG_GROUP_NAME} from "../Drawer/Picker";
 
 type SceneTreeData = Exclude<TreeProps['treeData'], undefined>[number] & {
@@ -30,10 +30,19 @@ const HeaderWrapper = styled.div`
 const Header = (
   <HeaderWrapper>
     <span>Scene Tree</span>
-    <RedoOutlined
-      onClick={() => observerLayer.refreshUI()}
-      style={{cursor: "pointer"}}
-    />
+    <div>
+      <DeleteOutlined
+        onClick={() => picker.removeDebugGroup()}
+        style={{
+          cursor: "pointer",
+          marginRight: "5px",
+        }}
+      />
+      <RedoOutlined
+        onClick={() => observerLayer.refreshUI()}
+        style={{cursor: "pointer"}}
+      />
+    </div>
   </HeaderWrapper>
 )
 

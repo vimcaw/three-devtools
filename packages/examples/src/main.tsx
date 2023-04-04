@@ -4,9 +4,10 @@ import 'modern-normalize';
 import ThreeJsDevTools from 'embedding';
 import App from './App';
 
+ThreeJsDevTools.initialize()
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <App />
-    <ThreeJsDevTools />
   </React.StrictMode>
 );

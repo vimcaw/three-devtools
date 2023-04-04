@@ -21,7 +21,7 @@ export class Picker {
   }
 
   highlight(object: THREE.Mesh) {
-    ThreeHelper.removeAllChildren(this.debugGroup)
+    this.removeDebugGroup()
     Drawer.drawWireframeBox(object, this.debugGroup)
   }
 
@@ -30,5 +30,9 @@ export class Picker {
     if (debugWireFrame) {
       this.debugGroup.remove(debugWireFrame)
     }
+  }
+
+  removeDebugGroup() {
+    ThreeHelper.removeAllChildren(this.debugGroup)
   }
 }
