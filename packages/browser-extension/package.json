@@ -30,7 +30,6 @@
     "@vitejs/plugin-react-swc": "^3.0.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
-    "typescript": "^5.0.2",
     "vite": "^4.2.0",
     "vite-plugin-web-extension": "^3.0.2"
   }

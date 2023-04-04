@@ -38,8 +38,7 @@
     "eslint-config-custom": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tsconfig": "workspace:*",
-    "typescript": "^4.9.4"
+    "tsconfig": "workspace:*"
   },
   "peerDependencies": {
     "react": "^18.2.0",
