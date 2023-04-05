@@ -1,7 +1,7 @@
 {
   "name": "eslint-config-custom",
   "version": "0.0.0",
-  "main": ".eslintrc.json",
+  "main": ".eslintrc.cjs",
   "license": "MIT",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.55.0",
