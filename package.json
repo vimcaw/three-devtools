@@ -32,9 +32,7 @@
     "prettier": "^2.8.4",
     "tsconfig": "workspace:*",
     "turbo": "^1.8.5",
-    "typescript": "^5.0.2",
-    "vite": "^4.2.0",
-    "vite-plugin-web-extension": "^3.0.2"
+    "typescript": "^5.0.2"
   },
   "pnpm": {
     "patchedDependencies": {
