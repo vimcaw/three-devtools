@@ -84,6 +84,7 @@ importers:
       '@types/styled-components': ^5.1.26
       '@types/three': ^0.149.0
       antd: ^5.3.2
+      embedding: workspace:*
       eslint-config-custom: workspace:*
       lodash-es: ^4.17.21
       mitt: ^3.0.0
@@ -100,6 +101,7 @@ importers:
       '@ant-design/icons': 5.0.1_biqbaboplfbrettd7655fr4n2y
       '@swc/plugin-styled-components': 1.5.49
       antd: 5.3.2_biqbaboplfbrettd7655fr4n2y
+      embedding: link:../embedding
       lodash-es: 4.17.21
       mitt: 3.0.0_rls5n62gk3y5g54n7jiqfdtdiu
       modern-normalize: 1.1.0
@@ -131,6 +133,7 @@ importers:
       lodash-es: ^4.17.21
       react: ^18.2.0
       react-dom: ^18.2.0
+      react-draggable: ^4.4.5
       shared: workspace:*
       styled-components: ^5.3.9
       vite: ^4.2.0
@@ -141,6 +144,7 @@ importers:
       lodash-es: 4.17.21
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-draggable: 4.4.5_biqbaboplfbrettd7655fr4n2y
       shared: link:../shared
       styled-components: 5.3.9_biqbaboplfbrettd7655fr4n2y
     devDependencies:
@@ -8576,6 +8580,18 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+
+  /react-draggable/4.4.5_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-OMHzJdyJbYTZo4uQE393fHcqqPYsEtkjfMgvCHr6rejT+Ezn4OZbNyGH50vv+SunC1RMvwOTSWkEODQLzw1M9g==}
+    peerDependencies:
+      react: '>= 16.3.0'
+      react-dom: '>= 16.3.0'
+    dependencies:
+      clsx: 1.2.1
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}

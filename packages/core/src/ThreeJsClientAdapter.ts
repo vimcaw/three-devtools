@@ -1,5 +1,5 @@
 import mitt from 'mitt';
-import type { Object3D, Renderer } from 'three';
+import type * as THREE from 'three';
 
 export class ThreeJsClientAdapter {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -14,9 +14,11 @@ export class ThreeJsClientAdapter {
     return ThreeJsClientAdapter.#instance!;
   }
 
+  static USER_THREE: THREE;
+
   emitter = mitt<{
     connected: { version: string };
-    observer: { target: Object3D | Renderer };
+    observer: { target: THREE.Object3D | THREE.Renderer };
     disconnected: void;
     error: void;
   }>();

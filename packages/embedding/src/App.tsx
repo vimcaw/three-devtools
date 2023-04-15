@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { App as DevToolsCoreApp } from 'core';
 import localforage from 'localforage';
 import Draggable from 'react-draggable';
-import {picker} from "core/src/store/threeJsData";
-import {IInitProps} from "./main";
+import { picker } from 'core/src/store/threeJsData';
+import { IInitProps } from './main';
 
 const DEFAULT_DEVTOOLS_PANEL_WIDTH = 300;
 const MIN_DEVTOOLS_PANEL_WIDTH = 200;
@@ -19,10 +19,6 @@ const Panel = styled.div<{ width?: number }>`
   width: ${({ width }) => width ?? DEFAULT_DEVTOOLS_PANEL_WIDTH}px;
   z-index: 9999999;
   border-radius: 6px;
-  
-  &::-webkit-scrollbar {
-    width: 0px !important;
-  }
 `;
 const expandButtonSize = 20;
 const expandButtonStrokeWidth = 2;
@@ -74,7 +70,7 @@ const ResizeMask = styled.div`
 `;
 
 function App(props: IInitProps) {
-  const {panelStyle} = props
+  const { panelStyle } = props;
   const [isDevToolsPanelExpanded, setIsDevToolsPanelExpanded] = useState<boolean>();
   const [devToolsPanelWidth, setDevToolsPanelWidth] = useState<number>(0);
   const [isDevToolsPanelResizing, setIsDevToolsPanelResizing] = useState(false);
@@ -126,11 +122,10 @@ function App(props: IInitProps) {
     // Save the expanded state to local storage.
     localforage.setItem(STORAGE_KEY_EXPANDED, isDevToolsPanelExpanded);
 
-    if(!isDevToolsPanelExpanded) {
+    if (!isDevToolsPanelExpanded) {
       // clear all debug groups children
       // picker.clearDebugGroups()
     }
-
   }, [isDevToolsPanelExpanded]);
 
   return (
@@ -138,8 +133,6 @@ function App(props: IInitProps) {
       <Panel
         width={devToolsPanelWidth}
         style={{
-          maxHeight: "500px",
-          ...(isDevToolsPanelExpanded ? {overflowY: "auto" } : {}),
           ...panelStyle,
         }}
       >
