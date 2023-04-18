@@ -50,7 +50,7 @@ function getTreeData(scene: Object3D): SceneTreeData[] {
           </div>
         </div>
       ),
-      key: child.uuid,
+      key: child.id,
       children: child.children.length ? getTreeData(child) : undefined,
       object: child,
     }));
@@ -66,13 +66,18 @@ const Header = (
     <span>Scene Tree</span>
     <div>
       <DeleteOutlined
+        title="remove debug group"
         onClick={() => picker.removeDebugGroup()}
         style={{
           cursor: 'pointer',
           marginRight: '5px',
         }}
       />
-      <RedoOutlined onClick={() => observerLayer.refreshUI()} style={{ cursor: 'pointer' }} />
+      <RedoOutlined
+        title="refresh group"
+        onClick={() => observerLayer.refreshUI()}
+        style={{ cursor: 'pointer' }}
+      />
     </div>
   </HeaderWrapper>
 );
