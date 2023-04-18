@@ -16,7 +16,8 @@ import { RenderInfo } from './PropertiesPanel/RenderInfo';
 
 const PanelWrapper = styled.div`
   max-height: 500px;
-  overflow-y: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
 
   &::-webkit-scrollbar {
     width: 0px !important;
