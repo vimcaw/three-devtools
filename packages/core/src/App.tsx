@@ -4,18 +4,33 @@ import './index.css';
 import type { Scene } from 'three';
 import { useMedia } from 'react-use';
 import { Object3D } from 'three';
-import {useState} from "react";
-import {ConnectionStatus, observerLayer, useThreeJsData} from './store/threeJsData';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { ConnectionStatus, observerLayer, useThreeJsData } from './store/threeJsData';
 import Header from './Header';
 import NotDetectedMessage from './NotDetectedMessage';
 import { Theme, usePreferences } from './store/perference';
 import SceneTree from './SceneTree/SceneTree';
-import {PropertyPanel as PropertiesPanel} from './PropertiesPanel';
-import {RenderInfo} from "./PropertiesPanel/RenderInfo";
+import { PropertyPanel as PropertiesPanel } from './PropertiesPanel';
+import { RenderInfo } from './PropertiesPanel/RenderInfo';
 
-function useForceUpdate(){
+const PanelWrapper = styled.div`
+  max-height: 500px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    width: 0px !important;
+  }
+`;
+
+function useForceUpdate() {
   const [value, setValue] = useState(0);
-  return () => setValue(value => value + 1);
+  const func = () => setValue(value => value + 1);
+
+  useEffect(() => {
+    observerLayer.refreshUI = func;
+  }, []);
 }
 
 function App() {
@@ -26,7 +41,7 @@ function App() {
   const customThemeAlgorithm =
     preferences.appearance.theme === Theme.Dark ? theme.darkAlgorithm : theme.defaultAlgorithm;
 
-  observerLayer.refreshUI = useForceUpdate()
+  useForceUpdate();
 
   return (
     <ConfigProvider
@@ -38,13 +53,15 @@ function App() {
           preferences.appearance.theme === Theme.Auto ? autoThemeAlgorithm : customThemeAlgorithm,
       }}
     >
-      <Layout style={{ minHeight: '100%' }}>
+      <Layout>
         {threeJsData.status === ConnectionStatus.Connected ? <Header /> : <NotDetectedMessage />}
-        {threeJsData.activeScene && <SceneTree scene={threeJsData.activeScene as Scene} />}
-        {threeJsData.selectedObject && (
-          <PropertiesPanel object={threeJsData.selectedObject as Object3D} />
-        )}
-        {threeJsData.activeRenderer && <RenderInfo render={threeJsData.activeRenderer} />}
+        <PanelWrapper>
+          {threeJsData.activeScene && <SceneTree scene={threeJsData.activeScene as Scene} />}
+          {threeJsData.selectedObject && (
+            <PropertiesPanel object={threeJsData.selectedObject as Object3D} />
+          )}
+          {threeJsData.activeRenderer && <RenderInfo render={threeJsData.activeRenderer} />}
+        </PanelWrapper>
       </Layout>
     </ConfigProvider>
   );

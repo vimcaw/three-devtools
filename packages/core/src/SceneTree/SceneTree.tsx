@@ -1,10 +1,9 @@
 import type { Object3D, Scene } from 'three';
-import {Card, Tree, TreeProps} from 'antd';
-import {RedoOutlined} from "@ant-design/icons"
-import { useMemo } from 'react';
-import styled from "styled-components";
-import {observerLayer, setSelectedObject} from '../store/threeJsData';
-import {DEBUG_GROUP_NAME} from "../Drawer/Picker";
+import { Card, Tree, TreeProps } from 'antd';
+import { DeleteOutlined, RedoOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
+import { observerLayer, picker, setSelectedObject } from '../store/threeJsData';
+import { DEBUG_GROUP_NAME } from '../Drawer/Picker';
 
 type SceneTreeData = Exclude<TreeProps['treeData'], undefined>[number] & {
   children?: SceneTreeData[];
@@ -13,10 +12,45 @@ type SceneTreeData = Exclude<TreeProps['treeData'], undefined>[number] & {
 
 function getTreeData(scene: Object3D): SceneTreeData[] {
   return scene.children
-    .filter((o => o.name !== DEBUG_GROUP_NAME))
+    .filter(o => o.name !== DEBUG_GROUP_NAME)
     .map(child => ({
-      title: child.type + (child.name ? ` [${child.name}]` : ""),
-      key: child.uuid,
+      title: (
+        <div
+          style={{
+            width: '230px',
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <span>{child.type + (child.name ? ` [${child.name}]` : '')}</span>
+          <div>
+            {child.visible ? (
+              <EyeOutlined
+                onClick={() => {
+                  child.visible = !child.visible;
+                  observerLayer.refreshUI();
+                }}
+                style={{
+                  cursor: 'pointer',
+                  marginRight: '5px',
+                }}
+              />
+            ) : (
+              <EyeInvisibleOutlined
+                onClick={() => {
+                  child.visible = !child.visible;
+                  observerLayer.refreshUI();
+                }}
+                style={{
+                  cursor: 'pointer',
+                  marginRight: '5px',
+                }}
+              />
+            )}
+          </div>
+        </div>
+      ),
+      key: child.id,
       children: child.children.length ? getTreeData(child) : undefined,
       object: child,
     }));
@@ -25,17 +59,28 @@ function getTreeData(scene: Object3D): SceneTreeData[] {
 const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-`
+`;
 
 const Header = (
   <HeaderWrapper>
     <span>Scene Tree</span>
-    <RedoOutlined
-      onClick={() => observerLayer.refreshUI()}
-      style={{cursor: "pointer"}}
-    />
+    <div>
+      <DeleteOutlined
+        title="remove debug group"
+        onClick={() => picker.removeDebugGroup()}
+        style={{
+          cursor: 'pointer',
+          marginRight: '5px',
+        }}
+      />
+      <RedoOutlined
+        title="refresh group"
+        onClick={() => observerLayer.refreshUI()}
+        style={{ cursor: 'pointer' }}
+      />
+    </div>
   </HeaderWrapper>
-)
+);
 
 export default function SceneTree({ scene }: { scene: Scene }) {
   return (
@@ -43,8 +88,10 @@ export default function SceneTree({ scene }: { scene: Scene }) {
       <Tree<SceneTreeData>
         treeData={getTreeData(scene)}
         onSelect={(_, { selectedNodes }) => {
-          setSelectedObject(selectedNodes[0]?.object ?? null)
-          observerLayer.refreshUI()
+          if (selectedNodes[0]?.object) {
+            setSelectedObject(selectedNodes[0]?.object ?? null);
+            observerLayer.refreshUI();
+          }
         }}
       />
     </Card>
