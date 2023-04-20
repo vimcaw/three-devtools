@@ -1,14 +1,18 @@
-import * as THREE from 'three';
+import type * as THREE from 'three';
+import { ThreeJsClientAdapter } from '../ThreeJsClientAdapter';
 
 export class Drawer {
-
   public static drawWireframeBox(object: THREE.Mesh, parent: THREE.Group) {
-    const line = new THREE.BoxHelper(object, "#f3ca67");
+    const line = new ThreeJsClientAdapter.USER_THREE.BoxHelper(object, '#f3ca67');
 
     line.name = `wireframe-${object.uuid}`;
-    line.lineWidth = 2;
+    if (
+      line.material &&
+      line.material instanceof ThreeJsClientAdapter.USER_THREE.LineBasicMaterial
+    ) {
+      line.material.linewidth = 2;
+    }
 
     parent.add(line);
   }
-
 }

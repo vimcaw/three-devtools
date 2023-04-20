@@ -1,9 +1,9 @@
-import { proxy, ref, useSnapshot } from 'valtio';
-import type { Object3D, Renderer, Scene } from 'three';
+import { ref } from 'valtio';
+import type { Object3D, Renderer, Scene, Mesh } from 'three';
 import { matchThreeJsObject } from 'shared';
 import { ThreeJsClientAdapter } from '../ThreeJsClientAdapter';
-import {Observer} from "../ObserverLayer/Observer";
-import {Picker} from "../Drawer/Picker";
+import { Observer } from '../ObserverLayer/Observer';
+import { Picker } from '../Drawer/Picker';
 
 export enum ConnectionStatus {
   Connected = 'Connected',
@@ -20,8 +20,8 @@ export const threeJsData = {
   selectedObject: null as Object3D | null,
 };
 
-export const observerLayer = new Observer()
-export const picker = new Picker()
+export const observerLayer = new Observer();
+export const picker = new Picker();
 
 ThreeJsClientAdapter.instance.on('connected', ({ version }) => {
   threeJsData.status = ConnectionStatus.Connected;
@@ -38,8 +38,8 @@ ThreeJsClientAdapter.instance.on('observer', ({ target }) => {
     onMatchScene: scene => {
       threeJsData.scenes.push(ref(scene));
       threeJsData.activeScene = ref(scene);
-      observerLayer.addScene(scene)
-      picker.init(scene)
+      observerLayer.addScene(scene);
+      picker.init(scene);
     },
   });
 });
@@ -61,5 +61,5 @@ export function useThreeJsData() {
 export function setSelectedObject(object: Object3D | null) {
   threeJsData.selectedObject = object;
 
-  picker.highlight(object)
+  if (object) picker.highlight(object as Mesh);
 }
