@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
-import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -16,7 +15,6 @@ export default defineConfig({
         ],
       ],
     }),
-    dts({ compilerOptions: { moduleResolution: 99 } }),
   ],
   build: {
     lib: {
