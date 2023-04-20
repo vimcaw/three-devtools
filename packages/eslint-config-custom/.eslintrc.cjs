@@ -16,6 +16,7 @@ module.exports = {
     'class-methods-use-this': 'off',
     'react/require-default-props': 'off',
     'no-param-reassign': 'off',
+    'no-plusplus': 'off',
   },
   overrides: [
     {
