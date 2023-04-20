@@ -51,7 +51,7 @@ export function VectorProperty(props: IVec3Props) {
         setZ(prop.z);
       }
 
-      observerLayer.refreshUI!();
+      observerLayer.refreshUI();
       setUseNativeV(true);
     }
   };

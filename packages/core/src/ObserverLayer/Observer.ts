@@ -22,5 +22,5 @@ export class Observer {
   /**
    * since the scene is updated, we need to force refresh the UI panel
    */
-  refreshUI?: () => void;
+  refreshUI: () => void = () => {};
 }
