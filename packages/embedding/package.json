@@ -6,12 +6,12 @@
   "files": [
     "src"
   ],
-  "main": "src/main.tsx",
+  "main": "dist/index.js",
   "module": "src/main.tsx",
   "types": "./dist/packages/embedding/src/main.d.ts",
   "exports": {
     "types": "./src/main.tsx",
-    "import": "./src/main.tsx"
+    "import": "./dist/index.js"
   },
   "scripts": {
     "dev": "vite",
