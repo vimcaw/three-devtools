@@ -1,5 +1,4 @@
 import { ConfigProvider, Layout, theme } from 'antd';
-import 'modern-normalize';
 import './index.css';
 import type { Object3D, Scene, WebGLRenderer } from 'three';
 import { useMedia } from 'react-use';
