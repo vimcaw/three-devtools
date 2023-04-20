@@ -1,15 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import type * as THREE from 'three';
+import type { THREE } from 'core';
 import { ThreeJsClientAdapter } from 'core';
 import App from './index';
+import type { IInitProps } from './types';
 
 const ROOT_ID = '__THREE_JS_DEVTOOLS__';
-
-export interface IInitProps {
-  three: THREE;
-  panelStyle?: React.CSSProperties;
-}
 
 export class ThreeJsDevTools {
   static USER_THREE: THREE;
@@ -20,7 +16,7 @@ export class ThreeJsDevTools {
     const root = document.createElement('div');
     root.id = ROOT_ID;
     document.body.appendChild(root);
-    ReactDOM.createRoot(root).render(<App panelStyle={props.panelStyle || {}} />);
+    ReactDOM.createRoot(root).render(<App {...props} />);
   }
 
   static destroy() {
