@@ -27,7 +27,7 @@ module.exports = {
       },
       parserOptions: {
         sourceType: 'script',
-        project: './tsconfig.node.json',
+        project: 'tsconfig.node.json',
       },
       rules: {
         'import/no-extraneous-dependencies': 'off',
