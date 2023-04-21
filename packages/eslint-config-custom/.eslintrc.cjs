@@ -20,7 +20,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['vite.config.ts'],
+      files: ['vite.config.ts', 'scripts/**/*.ts'],
       env: {
         browser: false,
         node: true,

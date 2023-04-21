@@ -7,7 +7,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['vite.config.ts'],
+      files: ['vite.config.ts', 'scripts/**/*.ts'],
       parserOptions: {
         tsconfigRootDir: __dirname,
         project: 'tsconfig.node.json',
