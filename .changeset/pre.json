@@ -1,0 +1,14 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "browser-extension": "0.0.0",
+    "core": "0.0.0",
+    "embedding": "0.0.0",
+    "eslint-config-custom": "0.0.0",
+    "examples": "0.0.0",
+    "shared": "0.0.0",
+    "tsconfig": "0.0.0"
+  },
+  "changesets": []
+}
