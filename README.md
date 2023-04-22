@@ -52,7 +52,7 @@ ThreeJsDevTools.initialize({
 
 ### Legacy Project Without Bundling
 
-It's Coming Soon.
+It's coming soon.
 
 # Roadmap
 
