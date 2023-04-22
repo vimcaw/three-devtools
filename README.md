@@ -7,12 +7,12 @@
   Next generation Three.js DevTools, it's modern and future-oriented.
 </h3>
 
-| ⚠️  | three-devtools is currently in development and not yet ready for opensource. You can test the latest [alpha build](https://github.com/vimcaw/three-devtools/releases/latest) if you would like, but be warned, you will find many bugs and incomplete features, and API may be changed. Please file new issues [here](https://github.com/vimcaw/three-devtools/issues) after searching to see if the issue already exists. [Contributors welcome](https://github.com/vimcaw/three-devtools/blob/main/CONTRIBUTING.md)! |
-| --- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ⚠️  | `three-devtools` is currently in development and not yet ready for opensource. You can test the latest [alpha build](https://github.com/vimcaw/three-devtools/releases/latest) if you would like, but be warned, you will find many bugs and incomplete features, and API may be changed. Please file new issues [here](https://github.com/vimcaw/three-devtools/issues) after searching to see if the issue already exists. [Contributors welcome](https://github.com/vimcaw/three-devtools/blob/main/CONTRIBUTING.md)! |
+| --- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 # Motivation
 
-[Original three-devtools](https://github.com/threejs/three-devtools) and other three.js devtools are feature-lacking, outdated and lack of maintenance. This project aims to provide a modern and feature-rich devtools for three.js.
+[Original three-devtools](https://github.com/threejs/three-devtools) and other `three.js` devtools are feature-lacking, outdated and lack of maintenance. This project aims to provide a modern and feature-rich devtools for [three.js](https://threejs.org).
 
 # Usage
 
@@ -22,7 +22,7 @@ Browser extension is working in progress.
 
 ### Performance Limitation
 
-Browser extension is running in an isolated environment, it can't access the `three.js` user code directly. So we need to inject a script to the page to communicate with the devtools. This will cause a performance penalty, so we recommend using `Embedding Mode`(Can be injected by browser extension or manually initialize) if care about performance.
+Browser extension is running in an isolated environment, it can't access the `three.js` objects directly. So we need to inject a script to the page to communicate with the devtools. This will cause a performance penalty, so we recommend using `Embedding Mode`(Can be injected by browser extension or manually initialize) if care about performance.
 
 ## Embedding Usage
 
@@ -97,8 +97,8 @@ See [Contributing Guide](CONTRIBUTING.md).
 
 # Credits
 
-- [Original three-devtools](https://github.com/threejs/three-devtools) For inspiration of communication mechanism with `three.js` user code
-- [Babylon.js inspector](https://doc.babylonjs.com/toolsAndResources/inspector) For inspiration of functionality and UI
+- [Original three-devtools](https://github.com/threejs/three-devtools) - For inspiration of communication mechanism with `three.js` user code
+- [Babylon.js inspector](https://doc.babylonjs.com/toolsAndResources/inspector) - For inspiration of functionality and UI
 
 # License
 
