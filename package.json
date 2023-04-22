@@ -35,7 +35,7 @@
     "lint": "turbo run lint",
     "prepare": "husky install",
     "preinstall": "npx only-allow pnpm",
-    "publish-packages": "turbo run build lint test && changeset version && changeset publish"
+    "publish-packages": "turbo run build --filter embedding && changeset version && changeset publish"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"

@@ -1,6 +1,6 @@
 {
   "name": "embedding",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "files": [
@@ -15,11 +15,11 @@
   "scripts": {
     "dev": "vite",
     "build:type": "dts-bundle-generator -o dist/main.d.ts src/main.tsx --external-imports three --external-types --no-check",
-    "build:post": "tsx scripts/postBuild.ts",
-    "build": "vite build && pnpm build:type && pnpm build:post",
+    "build": "vite build && pnpm build:type",
     "lint": "tsc",
     "preview": "vite preview",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "prepublish": "tsx scripts/prepublish.ts"
   },
   "publishConfig": {
     "directory": "./dist",
