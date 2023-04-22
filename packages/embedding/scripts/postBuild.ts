@@ -6,10 +6,10 @@ import { pick } from 'lodash-es';
 
 (async () => {
   const rootPath = '../../';
-  const copiedFileNames = [
+  const copiedOwnFileNames = ['CHANGELOG.md'];
+  const copiedRootFileNames = [
     'README.md',
     'LICENSE',
-    'CHANGELOG.md',
     'CONTRIBUTING.md',
     'CODE_OF_CONDUCT.md',
     'resource',
@@ -43,7 +43,13 @@ import { pick } from 'lodash-es';
   });
 
   await Promise.all(
-    copiedFileNames.map(async fileName => {
+    copiedOwnFileNames.map(async fileName => {
+      await cp(fileName, `dist/${fileName}`, { recursive: true }).catch();
+    })
+  );
+
+  await Promise.all(
+    copiedRootFileNames.map(async fileName => {
       await cp(join(rootPath, fileName), `dist/${fileName}`, { recursive: true }).catch();
     })
   );
