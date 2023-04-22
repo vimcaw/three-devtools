@@ -1,7 +1,7 @@
 {
   "name": "three-devtools",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
   "description": "Next generation Three.js DevTools, it's modern and future-oriented.",
   "keywords": [
