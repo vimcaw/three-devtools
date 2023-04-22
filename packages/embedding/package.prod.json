@@ -1,11 +1,12 @@
 {
   "files": ["**"],
-  "main": "./index.js",
+  "main": "./index.umd.js",
   "module": "./index.js",
   "types": "./main.d.ts",
   "exports": {
     "types": "./main.d.ts",
     "import": "./index.js",
-    "default": "./index.js"
+    "require": "./index.umd.js",
+    "default": "./index.umd.js"
   }
 }

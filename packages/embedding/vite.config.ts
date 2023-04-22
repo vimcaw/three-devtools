@@ -20,7 +20,11 @@ export default defineConfig({
     lib: {
       entry: './src/main.tsx',
       name: 'ThreeJsDevTools',
-      fileName: 'index',
+      fileName: format => `index.${format}.js`,
+      formats: ['es', 'umd'],
     },
+  },
+  define: {
+    'process.env.NODE_ENV': '"production"',
   },
 });
