@@ -16,10 +16,11 @@ module.exports = {
     'class-methods-use-this': 'off',
     'react/require-default-props': 'off',
     'no-param-reassign': 'off',
+    'no-plusplus': 'off',
   },
   overrides: [
     {
-      files: ['vite.config.ts'],
+      files: ['vite.config.ts', 'scripts/**/*.ts'],
       env: {
         browser: false,
         node: true,
@@ -27,7 +28,7 @@ module.exports = {
       },
       parserOptions: {
         sourceType: 'script',
-        project: './tsconfig.node.json',
+        project: 'tsconfig.node.json',
       },
       rules: {
         'import/no-extraneous-dependencies': 'off',

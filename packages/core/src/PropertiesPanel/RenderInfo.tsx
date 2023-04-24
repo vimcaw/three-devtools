@@ -1,10 +1,7 @@
 import { Card, Descriptions } from 'antd';
-import type { Object3D } from 'three';
 import { useState } from 'react';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import { WebGLRenderer } from 'three';
-import { VectorProperty } from './Properties/VectorProperty';
-import BooleanProperty from './Properties/BooleanProperty';
+import type { WebGLRenderer } from 'three';
 
 export function RenderInfo({ render }: { render: WebGLRenderer }) {
   // toggle the visibility of the div below
@@ -43,7 +40,9 @@ export function RenderInfo({ render }: { render: WebGLRenderer }) {
           <Descriptions.Item label="points">{render.info.render.points}</Descriptions.Item>
           <Descriptions.Item label="geometries">{render.info.memory.geometries}</Descriptions.Item>
           <Descriptions.Item label="textures">{render.info.memory.textures}</Descriptions.Item>
-          <Descriptions.Item label="programs">{render.info.programs.length}</Descriptions.Item>
+          <Descriptions.Item label="programs">
+            {render.info.programs?.length ?? 0}
+          </Descriptions.Item>
         </Descriptions>
       )}
     </Card>

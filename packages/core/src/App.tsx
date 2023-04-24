@@ -1,9 +1,6 @@
 import { ConfigProvider, Layout, theme } from 'antd';
-import 'modern-normalize';
-import './index.css';
-import type { Scene } from 'three';
+import type { Object3D, Scene, WebGLRenderer } from 'three';
 import { useMedia } from 'react-use';
-import { Object3D } from 'three';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ConnectionStatus, observerLayer, useThreeJsData } from './store/threeJsData';
@@ -20,12 +17,12 @@ const PanelWrapper = styled.div`
   overflow-x: hidden;
 
   &::-webkit-scrollbar {
-    width: 0px !important;
+    width: 0 !important;
   }
 `;
 
 function useForceUpdate() {
-  const [value, setValue] = useState(0);
+  const [, setValue] = useState(0);
   const func = () => setValue(value => value + 1);
 
   useEffect(() => {
@@ -60,7 +57,9 @@ function App() {
           {threeJsData.selectedObject && (
             <PropertiesPanel object={threeJsData.selectedObject as Object3D} />
           )}
-          {threeJsData.activeRenderer && <RenderInfo render={threeJsData.activeRenderer} />}
+          {threeJsData.activeRenderer && (
+            <RenderInfo render={threeJsData.activeRenderer as WebGLRenderer} />
+          )}
         </PanelWrapper>
       </Layout>
     </ConfigProvider>

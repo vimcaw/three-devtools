@@ -22,7 +22,6 @@
     "antd": "^5.3.2",
     "lodash-es": "^4.17.21",
     "mitt": "^3.0.0",
-    "modern-normalize": "^1.1.0",
     "react-use": "^17.4.0",
     "shared": "workspace:*",
     "styled-components": "^5.3.9",

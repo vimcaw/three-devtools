@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { App as DevToolsCoreApp } from 'core';
 import localforage from 'localforage';
 import Draggable from 'react-draggable';
-import { picker } from 'core/src/store/threeJsData';
-import { IInitProps } from './main';
+import { IInitProps } from './types';
 
 const DEFAULT_DEVTOOLS_PANEL_WIDTH = 300;
 const MIN_DEVTOOLS_PANEL_WIDTH = 200;

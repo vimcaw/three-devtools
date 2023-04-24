@@ -3,6 +3,25 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "description": "Next generation Three.js DevTools, it's modern and future-oriented.",
+  "keywords": [
+    "threejs",
+    "devtools"
+  ],
+  "homepage": "https://github.com/vimcaw/three-devtools#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vimcaw/three-devtools"
+  },
+  "bugs": {
+    "url": "https://github.com/vimcaw/three-devtools/issues"
+  },
+  "author": "vimcaw",
+  "contributors": [
+    "vimcaw",
+    "cf-19"
+  ],
+  "license": "MIT",
   "workspaces": [
     "packages/*"
   ],

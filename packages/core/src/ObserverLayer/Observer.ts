@@ -1,31 +1,26 @@
+import type * as THREE from 'three';
 
 export class Observer {
-
-  private scene: THREE.Scene
-
-  constructor(
-  ) {}
+  private scene?: THREE.Scene;
 
   findNode(uuid: string) {
     let find: THREE.Object3D;
 
-    this.scene.traverse((node) => {
+    this.scene!.traverse(node => {
       if (node.uuid === uuid) {
-        find = node
+        find = node;
       }
-    })
+    });
 
-    return find
+    return find!;
   }
 
   addScene(scene: THREE.Scene) {
-    this.scene = scene
+    this.scene = scene;
   }
-
 
   /**
    * since the scene is updated, we need to force refresh the UI panel
    */
-  refreshUI: () => void
-
+  refreshUI: () => void = () => {};
 }

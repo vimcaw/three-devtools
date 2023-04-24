@@ -1,0 +1,11 @@
+{
+  "files": ["**"],
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./main.d.ts",
+  "exports": {
+    "types": "./main.d.ts",
+    "import": "./index.js",
+    "default": "./index.js"
+  }
+}
