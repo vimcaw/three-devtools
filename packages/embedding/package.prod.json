@@ -2,11 +2,17 @@
   "files": ["**"],
   "main": "./index.umd.js",
   "module": "./index.js",
-  "types": "./main.d.ts",
+  "types": "./index.d.ts",
   "exports": {
-    "types": "./main.d.ts",
+    "types": "./index.d.ts",
     "import": "./index.js",
     "require": "./index.umd.js",
     "default": "./index.umd.js"
+  },
+  "dependencies": {
+    "csstype": "^3.1.2"
+  },
+  "peerDependencies": {
+    "three": "*"
   }
 }

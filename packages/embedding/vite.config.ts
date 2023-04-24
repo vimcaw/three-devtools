@@ -18,7 +18,7 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: './src/main.tsx',
+      entry: './src/index.tsx',
       name: 'ThreeJsDevTools',
       fileName: format => `index.${format}.js`,
       formats: ['es', 'umd'],

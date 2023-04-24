@@ -6,15 +6,14 @@
   "files": [
     "src"
   ],
-  "main": "dist/index.js",
-  "module": "src/main.tsx",
+  "main": "src/index.tsx",
+  "module": "./src/index.tsx",
   "exports": {
-    "types": "./src/main.tsx",
-    "import": "./dist/index.js"
+    "import": "./src/index.tsx"
   },
   "scripts": {
     "dev": "vite",
-    "build:type": "dts-bundle-generator -o dist/main.d.ts src/main.tsx --external-imports three --external-types --no-check",
+    "build:type": "dts-bundle-generator -o dist/index.d.ts src/index.tsx --external-imports three csstype --external-types --no-check",
     "build": "vite build && pnpm build:type",
     "lint": "tsc",
     "preview": "vite preview",
@@ -25,10 +24,12 @@
     "directory": "./dist",
     "registry": "https://registry.npmjs.org/",
     "tag": "alpha",
-    "access": "public"
+    "access": "public",
+    "linkDirectory": false
   },
   "dependencies": {
     "core": "workspace:*",
+    "csstype": "^3.1.2",
     "localforage": "^1.10.0",
     "lodash-es": "^4.17.21",
     "react": "^18.2.0",
