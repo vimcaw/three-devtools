@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { VectorProperty } from './Properties/VectorProperty';
 import BooleanProperty, { CustomBooleanProperty } from './Properties/BooleanProperty';
+import { Object3DWithOnBeforeRenderFlag } from './types';
 
 export default function GeneralPanel({ object }: { object: Object3D }) {
   // toggle the visibility of the div below
@@ -45,17 +46,20 @@ export default function GeneralPanel({ object }: { object: Object3D }) {
           </Descriptions.Item>
 
           <Descriptions.Item label="Enable Debugger Before Render">
-            <CustomBooleanProperty object={object} propName="onBeforeRenderFlag" />
+            <CustomBooleanProperty<Object3DWithOnBeforeRenderFlag>
+              object={object as Object3DWithOnBeforeRenderFlag}
+              propName="onBeforeRenderFlag"
+            />
           </Descriptions.Item>
 
           <Descriptions.Item label="Position">
-            <VectorProperty value={object.position} object={object} fieldName="position" />
+            <VectorProperty object={object} fieldName="position" />
           </Descriptions.Item>
           <Descriptions.Item label="Rotation">
-            <VectorProperty value={object.rotation} object={object} fieldName="rotation" />
+            <VectorProperty object={object} fieldName="rotation" />
           </Descriptions.Item>
           <Descriptions.Item label="Scale">
-            <VectorProperty value={object.scale} object={object} fieldName="scale" />
+            <VectorProperty object={object} fieldName="scale" />
           </Descriptions.Item>
         </Descriptions>
       )}

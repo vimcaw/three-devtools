@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import {Button, Layout, theme} from 'antd';
-import {DragOutlined} from "@ant-design/icons";
+import { Button, Layout, theme } from 'antd';
+import { DragOutlined } from '@ant-design/icons';
 import { useThreeJsData } from './store/threeJsData';
 import PreferencesButton from './components/PreferencesButton';
 
@@ -28,7 +28,7 @@ export default function Header() {
       </div>
       <div
         style={{
-          marginRight: "5px"
+          marginRight: '5px',
         }}
       >
         <Button
@@ -36,7 +36,7 @@ export default function Header() {
           className="draggable"
           icon={<DragOutlined />}
           style={{
-            cursor: "pointer"
+            cursor: 'pointer',
           }}
         />
         <PreferencesButton />

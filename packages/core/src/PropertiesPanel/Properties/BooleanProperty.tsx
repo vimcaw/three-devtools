@@ -2,6 +2,7 @@ import { Object3D } from 'three';
 import { Checkbox } from 'antd';
 import { O } from 'ts-toolbelt';
 import { observerLayer } from '../../store/threeJsData';
+import { isObject3DWithOnBeforeRenderFlag } from '../types';
 
 export default function BooleanProperty<T extends Object3D>({
   object,
@@ -38,16 +39,18 @@ export function CustomBooleanProperty<T extends Object3D>({
       onChange={e => {
         const node = observerLayer.findNode(object.uuid);
 
-        if (node) {
+        if (node && isObject3DWithOnBeforeRenderFlag(node)) {
           if (!node[propName]) {
             node.onBeforeRenderCopy = node.onBeforeRender;
             node.onBeforeRender = () => {
+              // eslint-disable-next-line no-debugger
               debugger;
-              node.onBeforeRenderCopy();
+              // @ts-ignore
+              node.onBeforeRenderCopy!();
             };
           } else {
             // restore original function
-            node.onBeforeRender = node.onBeforeRenderCopy;
+            node.onBeforeRender = node.onBeforeRenderCopy!;
           }
 
           (node[propName] as boolean) = e.target.checked;
