@@ -60,6 +60,7 @@ It's coming soon.
   - [x] View scene tree
   - [x] Remove object
   - [x] Highlight selected object
+  - [ ] Improve highlight effect
   - [ ] Pick object in scene to select
   - [ ] Search and filter objects in scene tree
 - [ ] Rendering pipelines
@@ -72,6 +73,9 @@ It's coming soon.
   - [ ] View and edit basic material properties
   - [ ] View and edit basic texture properties
   - [ ] View and edit basic light properties
+  - [ ] Visualize light probes
+  - [ ] View and edit basic camera properties
+  - [ ] View normals of vertexes
   - [ ] Shader edit and preview in real time
   - [ ] View and edit vertexes
 - [ ] Embedding Mode
@@ -79,6 +83,7 @@ It's coming soon.
   - [x] Adjust embedding switch button position
   - [x] Adjust embedding panel width
   - [ ] Legacy project usage
+  - [ ] Improve UI
 - [ ] Browser Extension
   - [ ] Chrome
   - [ ] Firefox
@@ -86,9 +91,11 @@ It's coming soon.
   - [ ] Safari
 - [ ] Misc
   - [x] Dark mode
+  - [x] Automatic versioning and publishing
+  - [ ] Issue and PR template
   - [ ] Unit test
   - [ ] E2E test
-  - [ ] Localization
+  - [ ] Internationalization and localization (i18n)
   - [ ] Performance optimization
 
 # Contribution
