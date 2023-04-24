@@ -1,0 +1,5 @@
+---
+'embedding': patch
+---
+
+Bug fixes
