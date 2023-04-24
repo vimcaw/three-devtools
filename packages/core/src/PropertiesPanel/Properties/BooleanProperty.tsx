@@ -24,3 +24,36 @@ export default function BooleanProperty<T extends Object3D>({
     />
   );
 }
+
+export function CustomBooleanProperty<T extends Object3D>({
+  object,
+  propName,
+}: {
+  object: T;
+  propName: O.WritableKeys<O.Select<T, boolean>>;
+}) {
+  return (
+    <Checkbox
+      checked={object[propName]}
+      onChange={e => {
+        const node = observerLayer.findNode(object.uuid);
+
+        if (node) {
+          if (!node[propName]) {
+            node.onBeforeRenderCopy = node.onBeforeRender;
+            node.onBeforeRender = () => {
+              debugger;
+              node.onBeforeRenderCopy();
+            };
+          } else {
+            // restore original function
+            node.onBeforeRender = node.onBeforeRenderCopy;
+          }
+
+          (node[propName] as boolean) = e.target.checked;
+          observerLayer.refreshUI();
+        }
+      }}
+    />
+  );
+}
