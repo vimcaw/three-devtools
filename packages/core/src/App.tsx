@@ -1,5 +1,5 @@
 import { ConfigProvider, Layout, theme } from 'antd';
-import type { Object3D, Scene, WebGLRenderer } from 'three';
+import type { Scene } from 'three';
 import { useMedia } from 'react-use';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -8,8 +8,7 @@ import Header from './Header';
 import NotDetectedMessage from './NotDetectedMessage';
 import { Theme, usePreferences } from './store/perference';
 import SceneTree from './SceneTree/SceneTree';
-import { PropertyPanel as PropertiesPanel } from './PropertiesPanel';
-import { RenderInfo } from './PropertiesPanel/RenderInfo';
+import { PropertiesPanel } from './PropertiesPanel';
 
 const PanelWrapper = styled.div`
   max-height: 500px;
@@ -54,12 +53,7 @@ function App() {
         {threeJsData.status === ConnectionStatus.Connected ? <Header /> : <NotDetectedMessage />}
         <PanelWrapper>
           {threeJsData.activeScene && <SceneTree scene={threeJsData.activeScene as Scene} />}
-          {threeJsData.selectedObject && (
-            <PropertiesPanel object={threeJsData.selectedObject as Object3D} />
-          )}
-          {threeJsData.activeRenderer && (
-            <RenderInfo render={threeJsData.activeRenderer as WebGLRenderer} />
-          )}
+          <PropertiesPanel />
         </PanelWrapper>
       </Layout>
     </ConfigProvider>

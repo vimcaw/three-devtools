@@ -13,9 +13,10 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  white-space: nowrap;
 `;
 const StyledInput = styled(Input)`
-  width: 120px;
+  width: 100px;
   margin-left: 10px;
 `;
 
