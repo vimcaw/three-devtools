@@ -10,5 +10,10 @@
     "shared": "0.0.0",
     "tsconfig": "0.0.0"
   },
-  "changesets": ["three-items-give", "young-actors-hope"]
+  "changesets": [
+    "chilly-actors-joke",
+    "long-steaks-remain",
+    "three-items-give",
+    "young-actors-hope"
+  ]
 }

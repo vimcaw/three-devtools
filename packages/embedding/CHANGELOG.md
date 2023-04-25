@@ -1,5 +1,14 @@
 # embedding
 
+## 0.1.0-alpha.2
+
+### Patch Changes
+
+- [`f6620bf`](https://github.com/vimcaw/three-devtools/commit/f6620bfa994256397a02a8600a232eb34b966d47) Thanks [@vimcaw](https://github.com/vimcaw)! - Fix the ESMoudle entry
+
+- Updated dependencies [[`848b599`](https://github.com/vimcaw/three-devtools/commit/848b599b432490d44d54040474c028c0b05bc90d)]:
+  - core@0.1.0-alpha.1
+
 ## 0.1.0-alpha.1
 
 ### Patch Changes
