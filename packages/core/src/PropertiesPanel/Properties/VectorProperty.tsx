@@ -31,11 +31,15 @@ export function VectorProperty(props: IVec3Props) {
     const node = observerLayer.findNode(object.uuid);
     if (!node) return null;
     const value = object[fieldName];
-    return value && value instanceof ThreeJsClientAdapter.USER_THREE.Vector3 ? value : null;
+    return (value && value instanceof ThreeJsClientAdapter.USER_THREE.Vector3) ||
+      value instanceof ThreeJsClientAdapter.USER_THREE.Euler
+      ? value
+      : null;
   }, [fieldName, object]);
-  const [x, setX] = useState(object.position.x);
-  const [y, setY] = useState(object.position.y);
-  const [z, setZ] = useState(object.position.z);
+
+  const [x, setX] = useState(object[fieldName].x);
+  const [y, setY] = useState(object[fieldName].y);
+  const [z, setZ] = useState(object[fieldName].z);
   const [useNativeV, setUseNativeV] = useState(true);
   if (!prop) return null;
 
