@@ -3,6 +3,10 @@
   <h1 align="center">Three.js DevTools</h1>
 </p>
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/three-devtools"><img src="https://img.shields.io/npm/v/three-devtools?style=for-the-badge"></a>
+</p>
+
 <h3 align="center">
   Next generation Three.js DevTools, it's modern and future-oriented.
 </h3>
