@@ -42,13 +42,13 @@ export function VectorProperty(props: IVec3Props) {
   const updateVec = (k: 'x' | 'y' | 'z') => {
     if (prop) {
       if (k === 'x') {
-        prop.x = Number.isNaN(+x) ? 0 : x;
+        prop.x = Number.isNaN(+x) ? prop.x : x;
         setX(prop.x);
       } else if (k === 'y') {
-        prop.y = Number.isNaN(+y) ? 0 : y;
+        prop.y = Number.isNaN(+y) ? prop.y : y;
         setX(prop.y);
       } else if (k === 'z') {
-        prop.z = Number.isNaN(+z) ? 0 : z;
+        prop.z = Number.isNaN(+z) ? prop.z : z;
         setZ(prop.z);
       }
 
@@ -62,11 +62,11 @@ export function VectorProperty(props: IVec3Props) {
     const v = e.target.value;
 
     if (k === 'x') {
-      setX(+v);
+      setX(v);
     } else if (k === 'y') {
-      setY(+v);
+      setY(v);
     } else if (k === 'z') {
-      setZ(+v);
+      setZ(v);
     }
   };
 
