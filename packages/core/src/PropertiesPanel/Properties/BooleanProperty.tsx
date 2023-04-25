@@ -39,18 +39,18 @@ export function CustomBooleanProperty<T extends Object3D>({
       onChange={e => {
         const node = observerLayer.findNode(object.uuid);
 
-        if (node && isObject3DWithOnBeforeRenderFlag(node)) {
+        if (node) {
           if (!node[propName]) {
             node.onBeforeRenderCopy = node.onBeforeRender;
             node.onBeforeRender = () => {
               // eslint-disable-next-line no-debugger
               debugger;
               // @ts-ignore
-              node.onBeforeRenderCopy!();
+              node.onBeforeRenderCopy();
             };
           } else {
             // restore original function
-            node.onBeforeRender = node.onBeforeRenderCopy!;
+            node.onBeforeRender = node.onBeforeRenderCopy;
           }
 
           (node[propName] as boolean) = e.target.checked;
