@@ -2,7 +2,7 @@ import { Object3D } from 'three';
 import { Checkbox } from 'antd';
 import { O } from 'ts-toolbelt';
 import { observerLayer } from '../../store/threeJsData';
-import { isObject3DWithOnBeforeRenderFlag } from '../types';
+import { Object3DWithOnBeforeRenderFlag } from '../types';
 
 export default function BooleanProperty<T extends Object3D>({
   object,
@@ -37,9 +37,9 @@ export function CustomBooleanProperty<T extends Object3D>({
     <Checkbox
       checked={object[propName]}
       onChange={e => {
-        const node = observerLayer.findNode(object.uuid);
+        const node = observerLayer.findNode(object.uuid) as Object3DWithOnBeforeRenderFlag;
 
-        if (node && isObject3DWithOnBeforeRenderFlag(node)) {
+        if (node) {
           if (!node[propName]) {
             node.onBeforeRenderCopy = node.onBeforeRender;
             node.onBeforeRender = () => {
