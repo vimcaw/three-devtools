@@ -1,9 +1,11 @@
 import { ref } from 'valtio';
 import type { Object3D, Renderer, Scene, Mesh } from 'three';
 import { matchThreeJsObject } from 'shared';
+import { WebGLRenderer } from 'three';
 import { ThreeJsClientAdapter } from '../ThreeJsClientAdapter';
 import { Observer } from '../ObserverLayer/Observer';
 import { Picker } from '../Drawer/Picker';
+import { MaterialEditor } from '../Drawer/MaterialEditor';
 
 export enum ConnectionStatus {
   Connected = 'Connected',
@@ -15,13 +17,14 @@ export const threeJsData = {
   version: null as string | null,
   renderers: [] as Renderer[],
   scenes: [] as Scene[],
-  activeRenderer: null as Renderer | null,
+  activeRenderer: null as WebGLRenderer | null,
   activeScene: null as Scene | null,
   selectedObject: null as Object3D | null,
 };
 
 export const observerLayer = new Observer();
 export const picker = new Picker();
+export const materialEditor = new MaterialEditor();
 
 ThreeJsClientAdapter.instance.on('connected', ({ version }) => {
   threeJsData.status = ConnectionStatus.Connected;
@@ -34,6 +37,8 @@ ThreeJsClientAdapter.instance.on('observer', ({ target }) => {
     onMatchRenderer: renderer => {
       threeJsData.renderers.push(ref(renderer));
       threeJsData.activeRenderer = ref(renderer);
+
+      materialEditor.initCtx(renderer);
     },
     onMatchScene: scene => {
       threeJsData.scenes.push(ref(scene));
