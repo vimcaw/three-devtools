@@ -1,7 +1,6 @@
 import { ref } from 'valtio';
-import type { Object3D, Renderer, Scene, Mesh } from 'three';
+import type { Object3D, Renderer, Scene, Mesh, WebGLRenderer } from 'three';
 import { matchThreeJsObject } from 'shared';
-import { WebGLRenderer } from 'three';
 import { ThreeJsClientAdapter } from '../ThreeJsClientAdapter';
 import { Observer } from '../ObserverLayer/Observer';
 import { Picker } from '../Drawer/Picker';

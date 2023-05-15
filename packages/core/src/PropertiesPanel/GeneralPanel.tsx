@@ -1,5 +1,5 @@
 import { Card, Descriptions } from 'antd';
-import type { Object3D, Mesh } from 'three';
+import type { Mesh } from 'three';
 import { EditOutlined } from '@ant-design/icons';
 import { VectorProperty } from './Properties/VectorProperty';
 import BooleanProperty, { CustomBooleanProperty } from './Properties/BooleanProperty';
