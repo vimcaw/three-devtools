@@ -269,7 +269,6 @@ export class MaterialEditor {
    * @param materialName material name
    */
   showEditor(materialName: string) {
-    debugger;
     this.setCurrentProgramsInfo();
     const shaderProgram = this.programInfoList.find(
       programInfo => programInfo.name === materialName
