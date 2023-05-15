@@ -10,8 +10,8 @@ ThreeJsDevTools.initialize({
 });
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
+  <div>
     <App />
     <EmbeddingApp three={THREE} />
-  </React.StrictMode>
+  </div>
 );

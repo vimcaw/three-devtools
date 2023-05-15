@@ -1,16 +1,91 @@
 import type { WebGLRenderer, WebGLProgram } from 'three';
+import { Button, Modal, Tabs } from 'antd';
+import { useUnmount } from 'react-use';
+import ReactCodeMirror from '@uiw/react-codemirror';
+import { useState } from 'react';
+import TabPane from 'antd/es/tabs/TabPane';
 
 export interface IProgramInfo extends WebGLProgram {
-  vertexShader: string;
-  fragmentShader: string;
-
   // rollback the original shader
   originalVertexShader: string;
   originalFragmentShader: string;
 }
 
+function Code(props: { program: IProgramInfo; editor: MaterialEditor }) {
+  const { program, editor } = props;
+  const vs = program.originalVertexShader;
+  const fs = program.originalFragmentShader;
+  const [vsCode, setVsCode] = useState(vs);
+  const [fsCode, setFsCode] = useState(fs);
+  const tabPaneStyle = {
+    maxHeight: 550,
+    overflowY: 'auto',
+  };
+
+  const onOk = () => {
+    editor.updateProgramsInfo(program.id, vsCode, fsCode);
+    editor.modal.destroy();
+  };
+
+  const onCancel = () => {
+    editor.modal.destroy();
+  };
+
+  return (
+    <div>
+      <Tabs defaultActiveKey="1">
+        <TabPane style={tabPaneStyle} tab="Vertex Shader" key="1">
+          <ReactCodeMirror
+            value={vs}
+            maxWidth={800}
+            maxHeight={600}
+            onChange={(value: string, viewUpdate: ViewUpdate) => {
+              setVsCode(value);
+            }}
+          />
+        </TabPane>
+        <TabPane style={tabPaneStyle} tab="Fragment Shader" key="2">
+          <ReactCodeMirror
+            value={fs}
+            maxWidth={800}
+            maxHeight={600}
+            onChange={(value: string, viewUpdate: ViewUpdate) => {
+              setFsCode(value);
+            }}
+          />
+        </TabPane>
+      </Tabs>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          width: '100%',
+          marginTop: 10,
+        }}
+      >
+        <div>
+          <Button
+            onClick={onCancel}
+            style={{
+              marginRight: 5,
+            }}
+          >
+            <span>Cancel</span>
+          </Button>
+
+          <Button type="primary" onClick={onOk}>
+            <span>Ok</span>
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export class MaterialEditor {
   private render: WebGLRenderer;
+
+  public modal: Modal;
 
   programInfoList: IProgramInfo[] = [];
 
@@ -45,20 +120,30 @@ export class MaterialEditor {
    * @param fs edited fragment shader
    */
   updateProgramsInfo(id: number, vs: string, fs: string) {
+    const gl = this.render.getContext();
     const program = this.programInfoList.find(programInfo => programInfo.id === id);
     const uniforms = program.getUniforms();
-    this.reCompileShaderProgram(gl, program.program, uniforms, vs, fs);
+    this.reCompileShaderProgram(gl, program, uniforms, vs, fs);
   }
 
+  /**
+   * threejs store the origin uniform addr in GPU, so we need to reset the addr after recompile the shader
+   * @param gl
+   * @param programInfo
+   * @param uniforms
+   * @param vs
+   * @param fs
+   */
   reCompileShaderProgram(
     gl: WebGLRenderingContext,
-    program: WebGLProgram,
+    programInfo: IProgramInfo,
     uniforms: { seq: any[] },
     vs: string,
     fs: string
   ) {
     const originalMapValue: Partial<string, any> = {};
-    const uniformLen = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
+    const uniformLen = gl.getProgramParameter(programInfo.program, gl.ACTIVE_UNIFORMS);
+    const { program } = programInfo;
 
     for (let i = 0; i < uniformLen; ++i) {
       const info = gl.getActiveUniform(program, i);
@@ -67,7 +152,7 @@ export class MaterialEditor {
       originalMapValue[info.name] = originV;
     }
 
-    this.reLink(gl, program, vs, fs);
+    this.reLink(gl, programInfo, vs, fs);
 
     const structUniforms = [uniforms];
     const flatUniforms = [];
@@ -87,8 +172,8 @@ export class MaterialEditor {
     }
 
     for (let i = 0; i < uniformLen; ++i) {
-      const info = gl.getActiveUniform(program, i);
-      const newAddr = gl.getUniformLocation(program, info.name);
+      const info = gl.getActiveUniform(programInfo.program, i);
+      const newAddr = gl.getUniformLocation(programInfo.program, info.name);
 
       // reset the addr of GPU ref object
       flatUniforms.forEach(uniform => {
@@ -130,21 +215,21 @@ export class MaterialEditor {
   }
 
   // relink the program with new shader source code
-  reLink(gl: WebGLRenderingContext, program: WebGLProgram, vs: string, fs: string) {
+  reLink(gl: WebGLRenderingContext, programInfo: IProgramInfo, vs: string, fs: string) {
+    const { program } = programInfo;
     const shaders = gl.getAttachedShaders(program);
 
-    gl.shaderSource(shaders[0], vs);
-    gl.compileShader(shaders[0]);
+    // delete the old shader
+    shaders.forEach(shader => {
+      gl.detachShader(program, shader);
+      gl.deleteShader(shader);
+    });
 
-    gl.shaderSource(shaders[1], fs);
-    gl.compileShader(shaders[1]);
+    const vsShader = this.createShader(gl, gl.VERTEX_SHADER, vs);
+    const fsShader = this.createShader(gl, gl.FRAGMENT_SHADER, fs);
 
-    // check the compiler status
-    const vsSuccess = gl.getShaderParameter(shaders[1], gl.COMPILE_STATUS);
-    if (!vsSuccess) {
-      const errorLog = gl.getShaderInfoLog(shaders[1]);
-      console.error(errorLog);
-    }
+    gl.attachShader(program, vsShader);
+    gl.attachShader(program, fsShader);
 
     gl.linkProgram(program);
 
@@ -153,6 +238,9 @@ export class MaterialEditor {
       const errorLog = gl.getProgramInfoLog(program);
       console.error(errorLog);
     }
+
+    programInfo.vertexShader = vsShader;
+    programInfo.fragmentShader = fsShader;
   }
 
   createShader(
@@ -164,6 +252,12 @@ export class MaterialEditor {
 
     gl.shaderSource(shader, string);
     gl.compileShader(shader);
+
+    const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+    if (!success) {
+      const errorLog = gl.getShaderInfoLog(shader);
+      console.error(errorLog);
+    }
 
     return shader;
   }
@@ -179,7 +273,21 @@ export class MaterialEditor {
       programInfo => programInfo.name === materialName
     );
 
-    // TODO finish the editor
-    // when code has changed, call ``updateProgramsInfo`` to update the shader
+    if (shaderProgram) {
+      this.modal = Modal.info();
+      this.modal.update({
+        width: 800,
+        height: 600,
+        title: 'Material Editor',
+        icon: null,
+        bodyStyle: {
+          maxHeight: '700px',
+          justifyContent: 'center',
+          overflowY: 'auto',
+        },
+        content: <Code program={shaderProgram} editor={this} />,
+        footer: null,
+      });
+    }
   }
 }
