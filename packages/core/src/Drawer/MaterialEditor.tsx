@@ -106,11 +106,10 @@ export class MaterialEditor {
       const vs = gl.getShaderSource(programThreeWrapped.vertexShader);
       const fs = gl.getShaderSource(programThreeWrapped.fragmentShader);
 
-      this.programInfoList.push({
-        ...programThreeWrapped,
-        originalVertexShader: vs,
-        originalFragmentShader: fs,
-      });
+      programThreeWrapped.originalVertexShader = vs;
+      programThreeWrapped.originalFragmentShader = fs;
+
+      this.programInfoList.push(programThreeWrapped);
     }
   }
 
@@ -175,9 +174,12 @@ export class MaterialEditor {
       const info = gl.getActiveUniform(programInfo.program, i);
       const newAddr = gl.getUniformLocation(programInfo.program, info.name);
 
-      // reset the addr of GPU ref object
       flatUniforms.forEach(uniform => {
         if (info.name.includes(uniform.id)) {
+          // make sure we use the right program
+          gl.useProgram(programInfo.program);
+
+          // reset the addr that threejs store
           uniform.addr = newAddr;
 
           switch (info.type) {
@@ -268,6 +270,7 @@ export class MaterialEditor {
    * @param materialName material name
    */
   showEditor(materialName: string) {
+    debugger;
     this.setCurrentProgramsInfo();
     const shaderProgram = this.programInfoList.find(
       programInfo => programInfo.name === materialName
