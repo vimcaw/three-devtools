@@ -215,9 +215,8 @@ export class MaterialEditor {
     }
   }
 
-  // relink the program with new shader source code
-  reLink(gl: WebGLRenderingContext, programInfo: IProgramInfo, vs: string, fs: string) {
-    const { program } = programInfo;
+  clearShaders(program: WebGLProgram) {
+    const gl = this.render.getContext();
     const shaders = gl.getAttachedShaders(program);
 
     // delete the old shader
@@ -225,9 +224,15 @@ export class MaterialEditor {
       gl.detachShader(program, shader);
       gl.deleteShader(shader);
     });
+  }
 
-    const vsShader = this.createShader(gl, gl.VERTEX_SHADER, vs);
-    const fsShader = this.createShader(gl, gl.FRAGMENT_SHADER, fs);
+  // relink the program with new shader source code
+  reLink(gl: WebGLRenderingContext, programInfo: IProgramInfo, vs: string, fs: string) {
+    const { program } = programInfo;
+    this.clearShaders(program);
+
+    let vsShader = this.createShader(gl, gl.VERTEX_SHADER, vs);
+    let fsShader = this.createShader(gl, gl.FRAGMENT_SHADER, fs);
 
     gl.attachShader(program, vsShader);
     gl.attachShader(program, fsShader);
@@ -237,7 +242,15 @@ export class MaterialEditor {
     const success = gl.getProgramParameter(program, gl.LINK_STATUS);
     if (!success) {
       const errorLog = gl.getProgramInfoLog(program);
-      console.error(errorLog);
+      console.error('compile shader error', errorLog);
+
+      // rollback
+      this.clearShaders(program);
+      vsShader = this.createShader(gl, gl.VERTEX_SHADER, programInfo.originalVertexShader);
+      fsShader = this.createShader(gl, gl.FRAGMENT_SHADER, programInfo.originalFragmentShader);
+      gl.attachShader(program, vsShader);
+      gl.attachShader(program, fsShader);
+      gl.linkProgram(program);
     }
 
     programInfo.vertexShader = vsShader;
