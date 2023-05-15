@@ -24,6 +24,9 @@ importers:
       '@commitlint/types':
         specifier: ^17.4.4
         version: 17.4.4
+      '@svitejs/changesets-changelog-github-compact':
+        specifier: ^1.1.0
+        version: 1.1.0
       '@total-typescript/ts-reset':
         specifier: ^0.4.2
         version: 0.4.2
@@ -3922,6 +3925,16 @@ packages:
       - react-dom
     dev: false
 
+  /@svitejs/changesets-changelog-github-compact@1.1.0:
+    resolution: {integrity: sha512-qhUGGDHcpbY2zpjW3SwqchuW8J/5EzlPFud7xNntHKA7f3a/mx5+g+ruJKFHSAiVZYo30PALt+AyhmPUNKH/Og==}
+    engines: {node: ^14.13.1 || ^16.0.0 || >=18}
+    dependencies:
+      '@changesets/get-github-info': 0.5.2
+      dotenv: 16.0.3
+    transitivePeerDependencies:
+      - encoding
+    dev: true
+
   /@swc/core-darwin-arm64@1.3.41:
     resolution: {integrity: sha512-D4fybODToO/BvuP35bionDUrSuTVVr8eW+mApr1unOqb3mfiqOrVv0VP2fpWNRYiA+xMq+oBCB6KcGpL60HKWQ==}
     engines: {node: '>=10'}
@@ -5572,6 +5585,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       is-obj: 2.0.0
+    dev: true
+
+  /dotenv@16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
+    engines: {node: '>=12'}
     dev: true
 
   /dotenv@8.6.0:
