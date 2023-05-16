@@ -1,8 +1,9 @@
-import type { WebGLRenderer, WebGLProgram } from 'three';
+import type { Material, ShaderMaterial, WebGLRenderer, WebGLProgram } from 'three';
 import { Button, Modal, Tabs } from 'antd';
 import ReactCodeMirror from '@uiw/react-codemirror';
 import { useState } from 'react';
 import TabPane from 'antd/es/tabs/TabPane';
+import { ThreeJsClientAdapter } from '../ThreeJsClientAdapter';
 
 export interface IProgramInfo extends WebGLProgram {
   // rollback the original shader
@@ -10,10 +11,16 @@ export interface IProgramInfo extends WebGLProgram {
   originalFragmentShader: string;
 }
 
-function Code(props: { program: IProgramInfo; editor: MaterialEditor }) {
-  const { program, editor } = props;
-  const vs = program.originalVertexShader;
-  const fs = program.originalFragmentShader;
+interface ICodeProps {
+  vs: string;
+  fs: string;
+  editor: MaterialEditor;
+  program: IProgramInfo;
+  mat: ShaderMaterial;
+}
+
+function Code(props: ICodeProps) {
+  const { editor, vs, fs, program, mat } = props;
   const [vsCode, setVsCode] = useState(vs);
   const [fsCode, setFsCode] = useState(fs);
   const tabPaneStyle = {
@@ -21,13 +28,18 @@ function Code(props: { program: IProgramInfo; editor: MaterialEditor }) {
     overflowY: 'auto',
   };
 
-  const onOk = () => {
-    editor.updateProgramsInfo(program.id, vsCode, fsCode);
+  const onCancel = () => {
     editor.modal.destroy();
   };
 
-  const onCancel = () => {
-    editor.modal.destroy();
+  const onOk = () => {
+    if (editor.isMaterialFromThreeJs) {
+      editor.updateProgramsInfo(program.id, vsCode, fsCode);
+    } else {
+      editor.updateShaderMaterial(mat, vsCode, fsCode);
+    }
+
+    onCancel();
   };
 
   return (
@@ -66,7 +78,7 @@ function Code(props: { program: IProgramInfo; editor: MaterialEditor }) {
           <Button
             onClick={onCancel}
             style={{
-              marginRight: 5,
+              marginRight: 10,
             }}
           >
             <span>Cancel</span>
@@ -87,6 +99,8 @@ export class MaterialEditor {
   public modal: Modal;
 
   programInfoList: IProgramInfo[] = [];
+
+  isMaterialFromThreeJs: boolean;
 
   constructor() {
     //
@@ -124,8 +138,14 @@ export class MaterialEditor {
     this.reCompileShaderProgram(gl, program, uniforms, vs, fs);
   }
 
+  updateShaderMaterial(material: ShaderMaterial, vs: string, fs: string) {
+    material.vertexShader = vs;
+    material.fragmentShader = fs;
+    material.needsUpdate = true;
+  }
+
   /**
-   * threejs store the origin uniform addr in GPU, so we need to reset the addr after recompile the shader
+   * threejs store the origin uniform addr, so we need to reset the addr after recompile the shader
    * @param gl
    * @param programInfo
    * @param uniforms
@@ -140,7 +160,7 @@ export class MaterialEditor {
     fs: string
   ) {
     const originalMapValue: Partial<string, any> = {};
-    const uniformLen = gl.getProgramParameter(programInfo.program, gl.ACTIVE_UNIFORMS);
+    let uniformLen = gl.getProgramParameter(programInfo.program, gl.ACTIVE_UNIFORMS);
     const { program } = programInfo;
 
     for (let i = 0; i < uniformLen; ++i) {
@@ -169,6 +189,7 @@ export class MaterialEditor {
       }
     }
 
+    uniformLen = gl.getProgramParameter(programInfo.program, gl.ACTIVE_UNIFORMS);
     for (let i = 0; i < uniformLen; ++i) {
       const info = gl.getActiveUniform(programInfo.program, i);
       const newAddr = gl.getUniformLocation(programInfo.program, info.name);
@@ -299,9 +320,73 @@ export class MaterialEditor {
           justifyContent: 'center',
           overflowY: 'auto',
         },
-        content: <Code program={shaderProgram} editor={this} />,
+        content: (
+          <Code
+            vs={shaderProgram.originalVertexShader}
+            fs={shaderProgram.originalFragmentShader}
+            program={shaderProgram}
+            editor={this}
+          />
+        ),
+        footer: null,
+      });
+    } else {
+      console.error(
+        'can not find shader program by type, make sure you set material.type correctly',
+        materialName
+      );
+    }
+  }
+
+  showEditorByMaterial(material: ShaderMaterial) {
+    this.isMaterialFromThreeJs = Object.keys(MaterialEditor.shaderIDs).find(
+      k => material.type === k
+    );
+
+    if (this.isMaterialFromThreeJs) {
+      // threejs material
+      this.showEditor(material.type);
+    } else {
+      // user defined material
+      this.modal = Modal.info();
+      this.modal.update({
+        width: 800,
+        height: 600,
+        title: 'Material Editor',
+        icon: null,
+        bodyStyle: {
+          maxHeight: '700px',
+          justifyContent: 'center',
+          overflowY: 'auto',
+        },
+        content: (
+          <Code
+            mat={material}
+            vs={material.vertexShader}
+            fs={material.fragmentShader}
+            editor={this}
+          />
+        ),
         footer: null,
       });
     }
   }
+
+  static shaderIDs = {
+    MeshDepthMaterial: 'depth',
+    MeshDistanceMaterial: 'distanceRGBA',
+    MeshNormalMaterial: 'normal',
+    MeshBasicMaterial: 'basic',
+    MeshLambertMaterial: 'lambert',
+    MeshPhongMaterial: 'phong',
+    MeshToonMaterial: 'toon',
+    MeshStandardMaterial: 'physical',
+    MeshPhysicalMaterial: 'physical',
+    MeshMatcapMaterial: 'matcap',
+    LineBasicMaterial: 'basic',
+    LineDashedMaterial: 'dashed',
+    PointsMaterial: 'points',
+    ShadowMaterial: 'shadow',
+    SpriteMaterial: 'sprite',
+  };
 }

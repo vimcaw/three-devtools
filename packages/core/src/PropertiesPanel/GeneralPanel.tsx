@@ -19,13 +19,15 @@ export default function GeneralPanel({ object }: { object: Mesh }) {
         <Descriptions.Item label="Material">
           <span>{object?.material?.type || '-'}</span>
           <EditOutlined
-            title="Edit The Shader Code"
+            title="edit the shader code, make sure you set material.type first"
             style={{
               marginLeft: 3,
               cursor: 'pointer',
             }}
             onClick={() => {
-              materialEditor.showEditor(object?.material?.type || '');
+              if (object?.material) {
+                materialEditor.showEditorByMaterial(object?.material);
+              }
             }}
           />
         </Descriptions.Item>

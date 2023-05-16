@@ -17,13 +17,16 @@ function getTreeData(scene: Object3D): SceneTreeData[] {
       title: (
         <div
           style={{
-            width: '230px',
             display: 'flex',
             justifyContent: 'space-between',
           }}
         >
           <span>{child.type + (child.name ? ` [${child.name}]` : '')}</span>
-          <div>
+          <div
+            style={{
+              marginLeft: '5px',
+            }}
+          >
             {child.visible ? (
               <EyeOutlined
                 onClick={() => {
