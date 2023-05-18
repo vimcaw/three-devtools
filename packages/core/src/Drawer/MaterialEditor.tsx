@@ -3,6 +3,7 @@ import { Button, Modal, Tabs } from 'antd';
 import ReactCodeMirror from '@uiw/react-codemirror';
 import { useState } from 'react';
 import TabPane from 'antd/es/tabs/TabPane';
+import { langs } from '@uiw/codemirror-extensions-langs';
 import { ThreeJsClientAdapter } from '../ThreeJsClientAdapter';
 
 export interface IProgramInfo extends WebGLProgram {
@@ -47,9 +48,13 @@ function Code(props: ICodeProps) {
       <Tabs defaultActiveKey="1">
         <TabPane style={tabPaneStyle} tab="Vertex Shader" key="1">
           <ReactCodeMirror
+            extensions={[langs.shader()]}
             value={vs}
             maxWidth={800}
             maxHeight={600}
+            basicSetup={{
+              completionKeymap: true,
+            }}
             onChange={(value: string, viewUpdate: ViewUpdate) => {
               setVsCode(value);
             }}
@@ -57,6 +62,7 @@ function Code(props: ICodeProps) {
         </TabPane>
         <TabPane style={tabPaneStyle} tab="Fragment Shader" key="2">
           <ReactCodeMirror
+            extensions={[langs.shader()]}
             value={fs}
             maxWidth={800}
             maxHeight={600}
@@ -329,6 +335,7 @@ export class MaterialEditor {
           />
         ),
         footer: null,
+        keyboard: false,
       });
     } else {
       console.error(
@@ -368,6 +375,7 @@ export class MaterialEditor {
           />
         ),
         footer: null,
+        keyboard: false,
       });
     }
   }
