@@ -5,6 +5,7 @@ import { ThreeJsClientAdapter } from '../ThreeJsClientAdapter';
 import { Observer } from '../ObserverLayer/Observer';
 import { Picker } from '../Drawer/Picker';
 import { MaterialEditor } from '../Drawer/MaterialEditor';
+import { TextureViewer } from '../Drawer/TextureViewer';
 
 export enum ConnectionStatus {
   Connected = 'Connected',
@@ -24,6 +25,7 @@ export const threeJsData = {
 export const observerLayer = new Observer();
 export const picker = new Picker();
 export const materialEditor = new MaterialEditor();
+export const textureViewer = new TextureViewer();
 
 ThreeJsClientAdapter.instance.on('connected', ({ version }) => {
   threeJsData.status = ConnectionStatus.Connected;
@@ -38,10 +40,16 @@ ThreeJsClientAdapter.instance.on('observer', ({ target }) => {
       threeJsData.activeRenderer = ref(renderer);
 
       materialEditor.initCtx(renderer);
+      textureViewer.initCtx(renderer);
     },
     onMatchScene: scene => {
       threeJsData.scenes.push(ref(scene));
-      threeJsData.activeScene = ref(scene);
+
+      // TODO room environment
+      if (!threeJsData.activeScene) {
+        threeJsData.activeScene = ref(scene);
+      }
+
       observerLayer.addScene(scene);
       picker.init(scene);
     },

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Button, Layout, theme } from 'antd';
 import { DragOutlined } from '@ant-design/icons';
-import { useThreeJsData } from './store/threeJsData';
+import { textureViewer, useThreeJsData } from './store/threeJsData';
 import PreferencesButton from './components/PreferencesButton';
 
 const Container = styled(Layout.Header)`
@@ -31,6 +31,16 @@ export default function Header() {
           marginRight: '5px',
         }}
       >
+        <Button
+          text="show texture"
+          icon={<DragOutlined />}
+          style={{
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            textureViewer.showModal();
+          }}
+        />
         <Button
           type="text"
           className="draggable"
