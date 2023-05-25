@@ -42,6 +42,7 @@ ThreeJsClientAdapter.instance.on('observer', ({ target }) => {
     onMatchScene: scene => {
       threeJsData.scenes.push(ref(scene));
       threeJsData.activeScene = ref(scene);
+
       observerLayer.addScene(scene);
       picker.init(scene);
     },
@@ -66,4 +67,17 @@ export function setSelectedObject(object: Object3D | null) {
   threeJsData.selectedObject = object;
 
   if (object) picker.highlight(object as Mesh);
+}
+
+/**
+ * switch active scene
+ */
+export function switchScene() {
+  if (threeJsData.scenes.length > 1) {
+    const index = threeJsData.scenes.findIndex(scene => scene === threeJsData.activeScene);
+    // make index in the range of [0, threeJsData.scenes.length - 1]
+    const nextIndex = (index + 1) % threeJsData.scenes.length;
+    threeJsData.activeScene = threeJsData.scenes[nextIndex];
+    observerLayer.refreshUI();
+  }
 }

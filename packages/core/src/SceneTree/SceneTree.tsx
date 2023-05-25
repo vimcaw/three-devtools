@@ -1,8 +1,20 @@
 import type { Object3D, Scene } from 'three';
 import { Card, Tree, TreeProps } from 'antd';
-import { DeleteOutlined, RedoOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  RedoOutlined,
+  EyeOutlined,
+  EyeInvisibleOutlined,
+  SwapOutlined,
+} from '@ant-design/icons';
 import styled from 'styled-components';
-import { observerLayer, picker, setSelectedObject } from '../store/threeJsData';
+import {
+  observerLayer,
+  picker,
+  setSelectedObject,
+  switchScene,
+  threeJsData,
+} from '../store/threeJsData';
 import { DEBUG_GROUP_NAME } from '../Drawer/Picker';
 
 type SceneTreeData = Exclude<TreeProps['treeData'], undefined>[number] & {
@@ -19,9 +31,20 @@ function getTreeData(scene: Object3D): SceneTreeData[] {
           style={{
             display: 'flex',
             justifyContent: 'space-between',
+            width: '220px',
           }}
         >
-          <span>{child.type + (child.name ? ` [${child.name}]` : '')}</span>
+          <span
+            title={child.type + (child.name ? ` [${child.name}]` : '')}
+            style={{
+              width: '120px',
+              overflowX: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {child.type + (child.name ? ` [${child.name}]` : '')}
+          </span>
           <div
             style={{
               marginLeft: '5px',
@@ -68,6 +91,16 @@ const Header = (
   <HeaderWrapper>
     <span>Scene Tree</span>
     <div>
+      <SwapOutlined
+        title="in case you have multiple scenes"
+        style={{
+          cursor: 'pointer',
+          marginRight: '5px',
+        }}
+        onClick={() => {
+          switchScene();
+        }}
+      />
       <DeleteOutlined
         title="remove debug group"
         onClick={() => picker.removeDebugGroup()}
@@ -89,6 +122,9 @@ export default function SceneTree({ scene }: { scene: Scene }) {
   return (
     <Card title={Header} size="small">
       <Tree<SceneTreeData>
+        style={{
+          overflowX: 'auto',
+        }}
         treeData={getTreeData(scene)}
         onSelect={(_, { selectedNodes }) => {
           if (selectedNodes[0]?.object) {

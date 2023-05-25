@@ -66,21 +66,6 @@ export class DefaultScene {
     );
   }
 
-  // private readonly scene = new Scene();
-  //
-  // private readonly camera = new PerspectiveCamera(
-  //   75,
-  //   window.innerWidth / window.innerHeight,
-  //   0.1,
-  //   1000
-  // );
-  //
-  // private renderer = new WebGLRenderer();
-  //
-  // private readonly cube: Mesh;
-  //
-  // private container?: HTMLElement;
-
   animate() {
     requestAnimationFrame(this.animate.bind(this));
 
@@ -89,6 +74,7 @@ export class DefaultScene {
     this.mixer.update(delta);
     this.controls.update();
     this.stats.update();
+
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -102,8 +88,8 @@ export class DefaultScene {
     this.container = container;
     this.stats = new Stats();
     container.appendChild(this.stats.dom);
-    window.addEventListener('resize', this.onResize, false);
     this.init();
+    window.addEventListener('resize', this.onResize.bind(this), false);
     container.appendChild(this.renderer.domElement);
   }
 
