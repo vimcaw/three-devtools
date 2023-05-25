@@ -26,6 +26,7 @@
     "mitt": "^3.0.0",
     "react-use": "^17.4.0",
     "shared": "workspace:*",
+    "spectorjs": "^0.9.29",
     "styled-components": "^5.3.9",
     "ts-toolbelt": "^9.6.0",
     "valtio": "^1.10.3"

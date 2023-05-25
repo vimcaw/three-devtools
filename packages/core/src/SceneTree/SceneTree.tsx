@@ -6,8 +6,10 @@ import {
   EyeOutlined,
   EyeInvisibleOutlined,
   SwapOutlined,
+  BugOutlined,
 } from '@ant-design/icons';
 import styled from 'styled-components';
+import * as SPECTOR from 'spectorjs';
 import {
   observerLayer,
   picker,
@@ -21,6 +23,9 @@ type SceneTreeData = Exclude<TreeProps['treeData'], undefined>[number] & {
   children?: SceneTreeData[];
   object: Object3D;
 };
+
+const spector = new SPECTOR.Spector();
+let isShowSpector = false;
 
 function getTreeData(scene: Object3D): SceneTreeData[] {
   return scene.children
@@ -91,6 +96,30 @@ const Header = (
   <HeaderWrapper>
     <span>Scene Tree</span>
     <div>
+      <BugOutlined
+        title="debug your frame with spector.js library"
+        style={{
+          cursor: 'pointer',
+          marginRight: '5px',
+        }}
+        onClick={() => {
+          if (isShowSpector) {
+            // spector has no api to hide ui, so we just hide it by css
+            // find classname include captureMenuComponent
+            const captureMenuComponent = document.getElementsByClassName('captureMenuComponent')[0];
+            (captureMenuComponent.parentNode as HTMLElement).style.display = 'none';
+            isShowSpector = false;
+          } else {
+            const captureMenuComponent = document.getElementsByClassName('captureMenuComponent')[0];
+            if (captureMenuComponent) {
+              (captureMenuComponent.parentNode as HTMLElement).style.display = 'block';
+            } else {
+              spector.displayUI();
+            }
+            isShowSpector = true;
+          }
+        }}
+      />
       <SwapOutlined
         title="in case you have multiple scenes"
         style={{
