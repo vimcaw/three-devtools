@@ -44,14 +44,25 @@ pnpm add three-devtools -D
 
 #### 2. initialize `three-devtools` in your code
 
+**⚠️ Be cautious, you must make sure that `three-devtools` has been initialized before initializing `three.js`, otherwise `three-devtools` cannot hook three.js correctly.**
+
+##### Option 1: If you want to enable some feature(such as object highlighting on pick), you have to pass the `THREE` module to the `initialize` method:
+
 ```js
 import * as THREE from 'three';
 import { ThreeJsDevTools } from 'three-devtools';
 
-// Make sure `three-devtools` has initialized before initializing `three.js`
 ThreeJsDevTools.initialize({
   three: THREE,
 });
+```
+
+##### Option 2: If you don't need those feature, you can just call the `initialize` method without passing the `THREE` module:
+
+```js
+import { ThreeJsDevTools } from 'three-devtools';
+
+ThreeJsDevTools.initialize();
 ```
 
 ### Legacy Project Without Bundling
