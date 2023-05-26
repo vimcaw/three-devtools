@@ -1,5 +1,14 @@
 # examples
 
+## 0.0.1-alpha.3
+
+### Patch Changes
+
+- Add the `Shader Editor` to edit shader code and take it effect in realtime ([#14](https://github.com/vimcaw/three-devtools/pull/14))
+
+- Updated dependencies [[`42ca937`](https://github.com/vimcaw/three-devtools/commit/42ca937eba98a32efc844b2384d5420ff25faa9c), [`b10c606`](https://github.com/vimcaw/three-devtools/commit/b10c606a27f489851d0f1cd7c5426ce6345d8297), [`b10c606`](https://github.com/vimcaw/three-devtools/commit/b10c606a27f489851d0f1cd7c5426ce6345d8297)]:
+  - embedding@0.1.0-alpha.3
+
 ## 0.0.1-alpha.2
 
 ### Patch Changes

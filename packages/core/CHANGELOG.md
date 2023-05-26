@@ -1,5 +1,21 @@
 # core
 
+## 0.1.0-alpha.2
+
+### Minor Changes
+
+- Add the `Shader Editor` to edit shader code and take it effect in realtime ([#14](https://github.com/vimcaw/three-devtools/pull/14))
+
+- Integrate the [Spector.js](https://spector.babylonjs.com/) debug tool ([#14](https://github.com/vimcaw/three-devtools/pull/14))
+
+### Patch Changes
+
+- fix: fixed when the input was negative ([#10](https://github.com/vimcaw/three-devtools/pull/10))
+
+- fix: rotation field option doesn't show ([#12](https://github.com/vimcaw/three-devtools/pull/12))
+
+- Improve the scene panel ([#14](https://github.com/vimcaw/three-devtools/pull/14))
+
 ## 0.1.0-alpha.1
 
 ### Patch Changes
