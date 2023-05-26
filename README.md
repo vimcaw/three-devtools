@@ -45,13 +45,9 @@ pnpm add three-devtools -D
 #### 2. initialize `three-devtools` in your code
 
 ```js
-import * as THREE from 'three';
 import { ThreeJsDevTools } from 'three-devtools';
 
-// Make sure `three-devtools` has initialized before initializing `three.js`
-ThreeJsDevTools.initialize({
-  three: THREE,
-});
+ThreeJsDevTools.initialize();
 ```
 
 ### Legacy Project Without Bundling
