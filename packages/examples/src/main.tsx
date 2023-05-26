@@ -5,9 +5,7 @@ import { ThreeJsDevTools, App as EmbeddingApp } from 'embedding';
 import * as THREE from 'three';
 import { App } from './App';
 
-ThreeJsDevTools.initialize({
-  three: THREE,
-});
+ThreeJsDevTools.initialize();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <div>

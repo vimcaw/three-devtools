@@ -1,5 +1,4 @@
-import * as THREE from 'three';
-import { ThreeJsClientAdapter } from '../ThreeJsClientAdapter';
+import type * as THREE from 'three';
 
 export class ThreeHelper {
   static removeAllChildren(group: THREE.Group | THREE.Scene) {
@@ -24,7 +23,7 @@ export class ThreeHelper {
   static disposeMaterial(material: THREE.Material) {
     if (!material) return;
 
-    if ('map' in material && material.map instanceof ThreeJsClientAdapter.USER_THREE.Texture) {
+    if ('map' in material && material.map) {
       material.map.dispose();
     }
     material.dispose();

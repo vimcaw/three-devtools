@@ -14,8 +14,11 @@ const ROOT_ID = '__THREE_JS_DEVTOOLS__';
 export class ThreeJsDevTools {
   static USER_THREE: THREE;
 
-  static initialize(props: IInitProps) {
-    ThreeJsClientAdapter.USER_THREE = props.three;
+  static initialize(props: IInitProps = {}) {
+    if (props.three) {
+      ThreeJsClientAdapter.USER_THREE = props.three;
+    }
+
     // @ts-ignore
     if (import.meta.env.DEV) {
       // In development mode, we inject the devtools into the `examples` app directly

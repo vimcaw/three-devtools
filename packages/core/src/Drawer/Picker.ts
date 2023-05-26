@@ -11,10 +11,12 @@ export class Picker {
   private scene?: THREE.Scene;
 
   init(scene: THREE.Scene) {
-    this.scene = scene;
-    this.debugGroup = new ThreeJsClientAdapter.USER_THREE.Group();
-    this.debugGroup.name = DEBUG_GROUP_NAME;
-    this.scene.add(this.debugGroup);
+    if (ThreeJsClientAdapter.USER_THREE) {
+      this.scene = scene;
+      this.debugGroup = new ThreeJsClientAdapter.USER_THREE.Group();
+      this.debugGroup.name = DEBUG_GROUP_NAME;
+      this.scene.add(this.debugGroup);
+    }
   }
 
   highlight(object: THREE.Mesh) {

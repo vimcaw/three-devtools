@@ -14,7 +14,7 @@ export class ThreeJsClientAdapter {
     return ThreeJsClientAdapter.#instance!;
   }
 
-  static USER_THREE: typeof THREE;
+  static USER_THREE?: typeof THREE;
 
   emitter = mitt<{
     connected: { version: string };
