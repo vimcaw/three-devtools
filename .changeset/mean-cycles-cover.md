@@ -1,6 +1,6 @@
 ---
-'core': feat
-'embedding': feat
+'core': minor
+'embedding': minor
 'examples': patch
 ---
 
