@@ -10,13 +10,7 @@ import {
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import * as SPECTOR from 'spectorjs';
-import {
-  observerLayer,
-  picker,
-  setSelectedObject,
-  switchScene,
-  threeJsData,
-} from '../store/threeJsData';
+import { observerLayer, picker, setSelectedObject, switchScene } from '../store/threeJsData';
 import { DEBUG_GROUP_NAME } from '../Drawer/Picker';
 
 type SceneTreeData = Exclude<TreeProps['treeData'], undefined>[number] & {

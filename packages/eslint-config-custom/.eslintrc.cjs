@@ -17,6 +17,7 @@ module.exports = {
     'react/require-default-props': 'off',
     'no-param-reassign': 'off',
     'no-plusplus': 'off',
+    'no-continue': 'off',
   },
   overrides: [
     {

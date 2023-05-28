@@ -1,21 +1,26 @@
-import {
-  Scene,
-  PerspectiveCamera,
-  WebGLRenderer,
-  BoxGeometry,
-  Mesh,
-  MeshStandardMaterial,
-  HemisphereLight,
-} from 'three';
 import * as THREE from 'three';
-import Stats from 'three/addons/libs/stats.module.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import Stats from 'three/examples/jsm/libs/stats.module';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 
 export class DefaultScene {
-  constructor() {}
+  renderer!: THREE.WebGLRenderer;
+
+  scene!: THREE.Scene;
+
+  camera!: THREE.PerspectiveCamera;
+
+  controls!: OrbitControls;
+
+  stats!: Stats;
+
+  container: HTMLElement | null = null;
+
+  clock!: THREE.Clock;
+
+  mixer: THREE.AnimationMixer | null = null;
 
   init() {
     this.mixer = null;
@@ -36,6 +41,7 @@ export class DefaultScene {
     this.camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 100);
     this.camera.position.set(5, 2, 8);
 
+    // eslint-disable-next-line no-multi-assign
     const controls = (this.controls = new OrbitControls(this.camera, this.renderer.domElement));
     controls.target.set(0, 0.5, 0);
     controls.update();
@@ -60,7 +66,7 @@ export class DefaultScene {
         this.animate();
       },
       undefined,
-      e => {
+      (e: unknown) => {
         console.error(e);
       }
     );
@@ -71,7 +77,7 @@ export class DefaultScene {
 
     const delta = this.clock.getDelta();
 
-    this.mixer.update(delta);
+    this.mixer?.update(delta);
     this.controls.update();
     this.stats.update();
 
@@ -86,7 +92,7 @@ export class DefaultScene {
 
   mount(container: HTMLElement) {
     this.container = container;
-    this.stats = new Stats();
+    this.stats = new (Stats as unknown as new () => Stats)();
     container.appendChild(this.stats.dom);
     this.init();
     window.addEventListener('resize', this.onResize.bind(this), false);

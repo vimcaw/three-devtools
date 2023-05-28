@@ -1,5 +1,5 @@
 import { Input, Space } from 'antd';
-import type { Object3D } from 'three';
+import type { Object3D, Vector3 } from 'three';
 import styled from 'styled-components';
 import { ChangeEvent, useState } from 'react';
 import { observerLayer } from '../../store/threeJsData';
@@ -26,8 +26,8 @@ interface IVec3Props {
 
 export function VectorProperty(props: IVec3Props) {
   const { fieldName, object } = props;
-  const vec3 = object[fieldName];
-  const cloneV3 = object[fieldName].clone();
+  const vec3 = object[fieldName] as Vector3;
+  const cloneV3 = vec3?.clone() as Vector3;
   const [x, setX] = useState(vec3.x);
   const [y, setY] = useState(vec3.y);
   const [z, setZ] = useState(vec3.z);
@@ -51,7 +51,7 @@ export function VectorProperty(props: IVec3Props) {
 
   const onChange = (k: 'x' | 'y' | 'z', e: ChangeEvent<HTMLInputElement>) => {
     setUseNativeV(false);
-    const v = e.target.value;
+    const v = Number(e.target.value);
 
     if (k === 'x') {
       setX(v);

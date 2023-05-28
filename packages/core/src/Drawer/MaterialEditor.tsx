@@ -1,23 +1,26 @@
-import type { Material, ShaderMaterial, WebGLRenderer, WebGLProgram } from 'three';
+import type { ShaderMaterial, WebGLRenderer, WebGLProgram } from 'three';
 import { Button, Modal, Tabs } from 'antd';
 import ReactCodeMirror from '@uiw/react-codemirror';
 import { useState } from 'react';
 import TabPane from 'antd/es/tabs/TabPane';
 import { langs } from '@uiw/codemirror-extensions-langs';
-import { ThreeJsClientAdapter } from '../ThreeJsClientAdapter';
+import { ModalFunc } from 'antd/es/modal/confirm';
+import { ThreeUniforms } from '../types';
+
+const codeMirrorExtensions = [langs.shader()];
 
 export interface IProgramInfo extends WebGLProgram {
   // rollback the original shader
-  originalVertexShader: string;
-  originalFragmentShader: string;
+  originalVertexShader?: string | null;
+  originalFragmentShader?: string | null;
 }
 
 interface ICodeProps {
   vs: string;
   fs: string;
   editor: MaterialEditor;
-  program: IProgramInfo;
-  mat: ShaderMaterial;
+  program?: IProgramInfo;
+  mat?: ShaderMaterial;
 }
 
 function Code(props: ICodeProps) {
@@ -27,16 +30,16 @@ function Code(props: ICodeProps) {
   const tabPaneStyle = {
     maxHeight: 550,
     overflowY: 'auto',
-  };
+  } as const;
 
   const onCancel = () => {
     editor.modal.destroy();
   };
 
   const onOk = () => {
-    if (editor.isMaterialFromThreeJs) {
+    if (editor.isMaterialFromThreeJs && program) {
       editor.updateProgramsInfo(program.id, vsCode, fsCode);
-    } else {
+    } else if (mat) {
       editor.updateShaderMaterial(mat, vsCode, fsCode);
     }
 
@@ -48,25 +51,25 @@ function Code(props: ICodeProps) {
       <Tabs defaultActiveKey="1">
         <TabPane style={tabPaneStyle} tab="Vertex Shader" key="1">
           <ReactCodeMirror
-            extensions={[langs.shader()]}
+            extensions={codeMirrorExtensions}
             value={vs}
-            maxWidth={800}
-            maxHeight={600}
+            maxWidth="800"
+            maxHeight="600"
             basicSetup={{
               completionKeymap: true,
             }}
-            onChange={(value: string, viewUpdate: ViewUpdate) => {
+            onChange={(value: string) => {
               setVsCode(value);
             }}
           />
         </TabPane>
         <TabPane style={tabPaneStyle} tab="Fragment Shader" key="2">
           <ReactCodeMirror
-            extensions={[langs.shader()]}
+            extensions={codeMirrorExtensions}
             value={fs}
-            maxWidth={800}
-            maxHeight={600}
-            onChange={(value: string, viewUpdate: ViewUpdate) => {
+            maxWidth="800"
+            maxHeight="600"
+            onChange={(value: string) => {
               setFsCode(value);
             }}
           />
@@ -100,17 +103,13 @@ function Code(props: ICodeProps) {
 }
 
 export class MaterialEditor {
-  private render: WebGLRenderer;
+  private render!: WebGLRenderer;
 
-  public modal: Modal;
+  public modal!: ReturnType<ModalFunc>;
 
   programInfoList: IProgramInfo[] = [];
 
-  isMaterialFromThreeJs: boolean;
-
-  constructor() {
-    //
-  }
+  isMaterialFromThreeJs?: boolean;
 
   initCtx(render: WebGLRenderer) {
     this.render = render;
@@ -118,7 +117,7 @@ export class MaterialEditor {
 
   setCurrentProgramsInfo() {
     const gl = this.render.getContext();
-    const programs = this.render.info.programs || [];
+    const programs: IProgramInfo[] = this.render.info.programs || [];
 
     for (let i = 0; i < programs.length; i++) {
       const programThreeWrapped = programs[i];
@@ -140,7 +139,10 @@ export class MaterialEditor {
   updateProgramsInfo(id: number, vs: string, fs: string) {
     const gl = this.render.getContext();
     const program = this.programInfoList.find(programInfo => programInfo.id === id);
-    const uniforms = program.getUniforms();
+    if (!program) {
+      throw new Error(`program id ${id} not found`);
+    }
+    const uniforms = program.getUniforms() as ThreeUniforms;
     this.reCompileShaderProgram(gl, program, uniforms, vs, fs);
   }
 
@@ -161,17 +163,20 @@ export class MaterialEditor {
   reCompileShaderProgram(
     gl: WebGLRenderingContext,
     programInfo: IProgramInfo,
-    uniforms: { seq: any[] },
+    uniforms: ThreeUniforms,
     vs: string,
     fs: string
   ) {
-    const originalMapValue: Partial<string, any> = {};
+    const originalMapValue: Record<string, any> = {};
     let uniformLen = gl.getProgramParameter(programInfo.program, gl.ACTIVE_UNIFORMS);
     const { program } = programInfo;
 
     for (let i = 0; i < uniformLen; ++i) {
       const info = gl.getActiveUniform(program, i);
-      const newAddr = gl.getUniformLocation(program, info.name);
+      if (!info) {
+        continue;
+      }
+      const newAddr = gl.getUniformLocation(program, info.name)!;
       const originV = gl.getUniform(program, newAddr);
       originalMapValue[info.name] = originV;
     }
@@ -179,10 +184,13 @@ export class MaterialEditor {
     this.reLink(gl, programInfo, vs, fs);
 
     const structUniforms = [uniforms];
-    const flatUniforms = [];
+    const flatUniforms: ThreeUniforms[] = [];
 
     while (structUniforms.length) {
       const structUniform = structUniforms.shift();
+      if (!structUniform) {
+        continue;
+      }
 
       for (let i = 0; i < structUniform.seq.length; i++) {
         const uniform = structUniform.seq[i];
@@ -197,7 +205,7 @@ export class MaterialEditor {
 
     uniformLen = gl.getProgramParameter(programInfo.program, gl.ACTIVE_UNIFORMS);
     for (let i = 0; i < uniformLen; ++i) {
-      const info = gl.getActiveUniform(programInfo.program, i);
+      const info = gl.getActiveUniform(programInfo.program, i)!;
       const newAddr = gl.getUniformLocation(programInfo.program, info.name);
 
       flatUniforms.forEach(uniform => {
@@ -206,7 +214,7 @@ export class MaterialEditor {
           gl.useProgram(programInfo.program);
 
           // reset the addr that threejs store
-          uniform.addr = newAddr;
+          uniform.addr = newAddr!;
 
           switch (info.type) {
             case gl.FLOAT_MAT4:
@@ -245,6 +253,9 @@ export class MaterialEditor {
   clearShaders(program: WebGLProgram) {
     const gl = this.render.getContext();
     const shaders = gl.getAttachedShaders(program);
+    if (!shaders) {
+      return;
+    }
 
     // delete the old shader
     shaders.forEach(shader => {
@@ -258,8 +269,8 @@ export class MaterialEditor {
     const { program } = programInfo;
     this.clearShaders(program);
 
-    let vsShader = this.createShader(gl, gl.VERTEX_SHADER, vs);
-    let fsShader = this.createShader(gl, gl.FRAGMENT_SHADER, fs);
+    let vsShader = this.createShader(gl, gl.VERTEX_SHADER, vs)!;
+    let fsShader = this.createShader(gl, gl.FRAGMENT_SHADER, fs)!;
 
     gl.attachShader(program, vsShader);
     gl.attachShader(program, fsShader);
@@ -273,8 +284,12 @@ export class MaterialEditor {
 
       // rollback
       this.clearShaders(program);
-      vsShader = this.createShader(gl, gl.VERTEX_SHADER, programInfo.originalVertexShader);
-      fsShader = this.createShader(gl, gl.FRAGMENT_SHADER, programInfo.originalFragmentShader);
+      if (programInfo.originalVertexShader) {
+        vsShader = this.createShader(gl, gl.VERTEX_SHADER, programInfo.originalVertexShader);
+      }
+      if (programInfo.originalFragmentShader) {
+        fsShader = this.createShader(gl, gl.FRAGMENT_SHADER, programInfo.originalFragmentShader);
+      }
       gl.attachShader(program, vsShader);
       gl.attachShader(program, fsShader);
       gl.linkProgram(program);
@@ -286,10 +301,13 @@ export class MaterialEditor {
 
   createShader(
     gl: WebGLRenderingContext,
-    type: gl.VERTEX_SHADER | gl.FRAGMENT_SHADER,
+    type: WebGLRenderingContext['VERTEX_SHADER'] | WebGLRenderingContext['FRAGMENT_SHADER'],
     string: string
   ) {
     const shader = gl.createShader(type);
+    if (!shader) {
+      throw new Error('create shader failed');
+    }
 
     gl.shaderSource(shader, string);
     gl.compileShader(shader);
@@ -315,10 +333,9 @@ export class MaterialEditor {
     );
 
     if (shaderProgram) {
-      this.modal = Modal.info();
+      this.modal = Modal.info({});
       this.modal.update({
         width: 800,
-        height: 600,
         title: 'Material Editor',
         icon: null,
         bodyStyle: {
@@ -328,8 +345,8 @@ export class MaterialEditor {
         },
         content: (
           <Code
-            vs={shaderProgram.originalVertexShader}
-            fs={shaderProgram.originalFragmentShader}
+            vs={shaderProgram.originalVertexShader!}
+            fs={shaderProgram.originalFragmentShader!}
             program={shaderProgram}
             editor={this}
           />
@@ -346,19 +363,18 @@ export class MaterialEditor {
   }
 
   showEditorByMaterial(material: ShaderMaterial) {
-    this.isMaterialFromThreeJs = Object.keys(MaterialEditor.shaderIDs).find(
+    this.isMaterialFromThreeJs = Object.keys(MaterialEditor.shaderIDs).some(
       k => material.type === k
     );
 
     if (this.isMaterialFromThreeJs) {
-      // threejs material
+      // three.js material
       this.showEditor(material.type);
     } else {
       // user defined material
-      this.modal = Modal.info();
+      this.modal = Modal.info({});
       this.modal.update({
         width: 800,
-        height: 600,
         title: 'Material Editor',
         icon: null,
         bodyStyle: {
