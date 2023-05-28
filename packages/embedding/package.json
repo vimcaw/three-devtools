@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "vite",
     "build:type": "dts-bundle-generator -o dist/index.d.ts src/index.tsx --external-imports three csstype --external-types --no-check",
-    "build": "vite build && pnpm build:type",
+    "build": "vite build",
     "lint": "tsc",
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm",
