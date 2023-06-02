@@ -10,6 +10,7 @@ const MIN_DEVTOOLS_PANEL_WIDTH = 200;
 
 const STORAGE_KEY_EXPANDED = 'expanded';
 const STORAGE_KEY_PANEL_WIDTH = 'panelWidth';
+const DRAGGABLE_POS = 'draggablePos';
 
 const Panel = styled.div<{ width?: number }>`
   position: fixed;
@@ -75,6 +76,7 @@ function App(props: IInitProps) {
   const [isDevToolsPanelResizing, setIsDevToolsPanelResizing] = useState(false);
   const resizingInitialInfo = useRef<{ x: number; width: number } | null>(null);
 
+  const [pos, setPos] = useState({ x: 0, y: 0 });
   useEffect(() => {
     let resizedDevToolsPanelWidth: number | null = null;
     const handleMouseMove = (e: MouseEvent) => {
@@ -113,6 +115,9 @@ function App(props: IInitProps) {
       if (expanded !== null) {
         setIsDevToolsPanelExpanded(expanded);
       }
+
+      const pos = await localforage.getItem<{ x: number; y: number }>(DRAGGABLE_POS);
+      setPos(pos ?? { x: 0, y: 0 });
     })();
   }, []);
 
@@ -127,8 +132,18 @@ function App(props: IInitProps) {
     }
   }, [isDevToolsPanelExpanded]);
 
+  // persist the drag position
+  const handleStop: DraggableEventHand = (e: any, data: any) => {
+    const newPos = {
+      x: data.x,
+      y: data.y,
+    };
+    setPos(newPos);
+    localforage.setItem(DRAGGABLE_POS, newPos);
+  };
+
   return (
-    <Draggable handle=".draggable">
+    <Draggable handle=".draggable" onStop={handleStop} position={pos}>
       <Panel
         width={devToolsPanelWidth}
         style={{
