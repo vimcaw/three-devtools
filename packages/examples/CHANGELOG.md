@@ -1,5 +1,12 @@
 # examples
 
+## 0.0.1-alpha.4
+
+### Patch Changes
+
+- Updated dependencies [[`ac384dc`](https://github.com/vimcaw/three-devtools/commit/ac384dc43dc03b2104ed13788af280156c5dafab)]:
+  - embedding@0.1.0-alpha.4
+
 ## 0.0.1-alpha.3
 
 ### Patch Changes
