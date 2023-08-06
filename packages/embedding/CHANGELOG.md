@@ -1,5 +1,11 @@
 # embedding
 
+## 0.1.0-alpha.4
+
+### Patch Changes
+
+- Persist the dragged position ([`ac384dc`](https://github.com/vimcaw/three-devtools/commit/ac384dc43dc03b2104ed13788af280156c5dafab))
+
 ## 0.1.0-alpha.3
 
 ### Minor Changes
