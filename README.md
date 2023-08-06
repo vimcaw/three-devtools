@@ -8,21 +8,21 @@
 </p>
 
 <h3 align="center">
-  Next generation Three.js DevTools, it's modern and future-oriented.
+  Next-generation Three.js DevTools, it's modern and future-oriented.
 </h3>
 
-| ⚠️  | `three-devtools` is currently in development and not yet ready for opensource. You can test the latest [alpha build](https://github.com/vimcaw/three-devtools/releases/latest) if you would like, but be warned, you will find many bugs and incomplete features, and API may be changed. Please file new issues [here](https://github.com/vimcaw/three-devtools/issues) after searching to see if the issue already exists. [Contributors welcome](https://github.com/vimcaw/three-devtools/blob/main/CONTRIBUTING.md)! |
+| ⚠️  | `three-devtools` is currently in development, You can test the latest [alpha build](https://www.npmjs.com/package/three-devtools) if you would like, but be warned, you may find many bugs and incomplete features, and API may be changed. Please file new issues [here](https://github.com/vimcaw/three-devtools/issues) after searching to see if the issue exists. [Contributors welcome](https://github.com/vimcaw/three-devtools/blob/main/CONTRIBUTING.md)! |
 | --- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 # Motivation
 
-[Original three-devtools](https://github.com/threejs/three-devtools) and other `three.js` devtools are feature-lacking, outdated and lack of maintenance. This project aims to provide a modern and feature-rich devtools for [three.js](https://threejs.org).
+[Original three-devtools](https://github.com/threejs/three-devtools) and other `three.js` devtools are feature-lacking, outdated, and lack maintenance. This project aims to provide modern and feature-rich devtools for [three.js](https://threejs.org).
 
 # Usage
 
 ## Browser Extension
 
-Browser extension is working in progress.
+The browser extension is working in progress.
 
 ### Performance Limitation
 
@@ -35,18 +35,18 @@ Browser extension is running in an isolated environment, it can't access the `th
 #### 1. install `three-devtools` to your project
 
 ```bash
-// Choose one of the following commands depends on your package manager
+// Choose one of the following commands depending on your package manager
 
 npm install three-devtools -D
 yarn add three-devtools -D
 pnpm add three-devtools -D
 ```
 
-#### 2. initialize `three-devtools` in your code
+#### 2. Initialize `three-devtools` in your code
 
 **⚠️ Be cautious, you must make sure that `three-devtools` has been initialized before initializing `three.js`, otherwise `three-devtools` cannot hook three.js correctly.**
 
-##### Option 1: If you want to enable some feature(such as object highlighting on pick), you have to pass the `THREE` module to the `initialize` method:
+##### Option 1: If you want to enable some feature(such as object highlighting on a pick), you have to pass the `THREE` module to the `initialize` method:
 
 ```js
 import * as THREE from 'three';
@@ -57,7 +57,7 @@ ThreeJsDevTools.initialize({
 });
 ```
 
-##### Option 2: If you don't need those feature, you can just call the `initialize` method without passing the `THREE` module:
+##### Option 2: If you don't need those features, you can just call the `initialize` method without passing the `THREE` module:
 
 ```js
 import { ThreeJsDevTools } from 'three-devtools';
@@ -74,10 +74,10 @@ It's coming soon.
 - [ ] Scene Tree
   - [x] View scene tree
   - [x] Remove object
-  - [x] Highlight selected object
+  - [x] Highlight the selected object
   - [ ] Improve highlight effect
-  - [ ] Pick object in scene to select
-  - [ ] Search and filter objects in scene tree
+  - [ ] Pick an object in a scene to select
+  - [ ] Search and filter objects in the scene tree
 - [ ] Rendering pipelines
   - [ ] View rendering pipelines
 - [ ] Render Target
@@ -94,8 +94,8 @@ It's coming soon.
   - [ ] Shader edit and preview in real time
   - [ ] View and edit vertexes
 - [ ] Embedding Mode
-  - [x] Embedding to user page
-  - [x] Adjust embedding switch button position
+  - [x] Embedding to a user page
+  - [x] Adjust the embedding switch button position
   - [x] Adjust embedding panel width
   - [ ] Legacy project usage
   - [ ] Improve UI
