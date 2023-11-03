@@ -18,6 +18,10 @@
 
 [Original three-devtools](https://github.com/threejs/three-devtools) and other `three.js` devtools are feature-lacking, outdated, and lack maintenance. This project aims to provide modern and feature-rich devtools for [three.js](https://threejs.org).
 
+# Example website
+
+www.chengfeng.fun/three-devtools/example.html
+
 # Usage
 
 ## Browser Extension
