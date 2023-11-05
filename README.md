@@ -20,7 +20,7 @@
 
 # Example website
 
-www.chengfeng.fun/three-devtools/example.html
+https://www.chengfeng.fun/three-devtools/example.html
 
 # Usage
 
