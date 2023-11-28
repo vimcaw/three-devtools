@@ -40,25 +40,20 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.4.8",
-    "@changesets/cli": "^2.26.1",
-    "@commitlint/cli": "^17.4.4",
-    "@commitlint/config-conventional": "^17.4.4",
-    "@commitlint/types": "^17.4.4",
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.1",
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@commitlint/types": "^18.4.3",
     "@svitejs/changesets-changelog-github-compact": "^1.1.0",
-    "@total-typescript/ts-reset": "^0.4.2",
-    "eslint": "^8.41.0",
+    "@total-typescript/ts-reset": "^0.5.1",
+    "eslint": "^8.54.0",
     "eslint-config-custom": "workspace:*",
     "husky": "^8.0.3",
-    "lint-staged": "^13.2.0",
-    "prettier": "^2.8.4",
+    "lint-staged": "^15.1.0",
+    "prettier": "^3.1.0",
     "tsconfig": "workspace:*",
-    "turbo": "^1.8.5",
-    "typescript": "^5.0.2"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "mitt@3.0.0": "patches/mitt@3.0.0.patch"
-    }
+    "turbo": "^1.10.16",
+    "typescript": "^5.3.2"
   }
 }
