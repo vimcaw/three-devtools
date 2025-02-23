@@ -9,13 +9,13 @@ export function matchThreeJsObject<TOut = unknown>(
     onMatchObject3D,
   }: {
     onMatchScene?: (scene: Scene) => TOut;
-    onMatchRenderer?: (renderer: Renderer) => TOut;
+    onMatchRenderer?: (renderer: WebGLRenderer) => TOut;
     onMatchObject3D?: (object: Object3D) => TOut;
-  }
+  },
 ): TOut {
   return match(object)
     .with({ render: P.when(render => typeof render === 'function') }, renderer =>
-      onMatchRenderer?.(renderer as WebGLRenderer)
+      onMatchRenderer?.(renderer as WebGLRenderer),
     )
     .with({ isScene: true }, scene => onMatchScene?.(scene as Scene))
     .with({ isObject3D: true }, object3D => onMatchObject3D?.(object3D as Object3D))
