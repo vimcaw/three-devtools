@@ -1,5 +1,14 @@
 # core
 
+## 0.1.0-alpha.3
+
+### Patch Changes
+
+- Upgrade all dependencies ([#16](https://github.com/vimcaw/three-devtools/pull/16))
+
+- Updated dependencies [[`9dcd7af`](https://github.com/vimcaw/three-devtools/commit/9dcd7afdb665176cef41ad28daff45f558ccbf76)]:
+  - shared@0.0.1-alpha.0
+
 ## 0.1.0-alpha.2
 
 ### Minor Changes
