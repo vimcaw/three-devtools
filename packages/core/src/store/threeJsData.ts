@@ -1,5 +1,5 @@
 import { ref } from 'valtio';
-import type { Object3D, Renderer, Scene, Mesh, WebGLRenderer } from 'three';
+import type { Object3D, Scene, Mesh, WebGLRenderer } from 'three';
 import { matchThreeJsObject } from 'shared';
 import { ThreeJsClientAdapter } from '../ThreeJsClientAdapter';
 import { Observer } from '../ObserverLayer/Observer';
@@ -11,14 +11,24 @@ export enum ConnectionStatus {
   NotConnected = 'NotConnected',
 }
 
-export const threeJsData = {
+export interface ThreeJsData {
+  status: ConnectionStatus;
+  version: string | null;
+  renderers: WebGLRenderer[];
+  scenes: Scene[];
+  activeRenderer: WebGLRenderer | null;
+  activeScene: Scene | null;
+  selectedObject: Object3D | null;
+}
+
+export const threeJsData: ThreeJsData = {
   status: ConnectionStatus.NotConnected,
-  version: null as string | null,
-  renderers: [] as Renderer[],
-  scenes: [] as Scene[],
-  activeRenderer: null as WebGLRenderer | null,
-  activeScene: null as Scene | null,
-  selectedObject: null as Object3D | null,
+  version: null,
+  renderers: [],
+  scenes: [],
+  activeRenderer: null,
+  activeScene: null,
+  selectedObject: null,
 };
 
 export const observerLayer = new Observer();
@@ -70,7 +80,7 @@ export function setSelectedObject(object: Object3D | null) {
 }
 
 /**
- * switch active scene
+ * switch the active scene
  */
 export function switchScene() {
   if (threeJsData.scenes.length > 1) {

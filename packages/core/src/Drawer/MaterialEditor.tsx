@@ -142,7 +142,7 @@ export class MaterialEditor {
     if (!program) {
       throw new Error(`program id ${id} not found`);
     }
-    const uniforms = program.getUniforms() as ThreeUniforms;
+    const uniforms = program.getUniforms() as unknown as ThreeUniforms;
     this.reCompileShaderProgram(gl, program, uniforms, vs, fs);
   }
 
@@ -165,7 +165,7 @@ export class MaterialEditor {
     programInfo: IProgramInfo,
     uniforms: ThreeUniforms,
     vs: string,
-    fs: string
+    fs: string,
   ) {
     const originalMapValue: Record<string, any> = {};
     let uniformLen = gl.getProgramParameter(programInfo.program, gl.ACTIVE_UNIFORMS);
@@ -302,7 +302,7 @@ export class MaterialEditor {
   createShader(
     gl: WebGLRenderingContext,
     type: WebGLRenderingContext['VERTEX_SHADER'] | WebGLRenderingContext['FRAGMENT_SHADER'],
-    string: string
+    string: string,
   ) {
     const shader = gl.createShader(type);
     if (!shader) {
@@ -329,7 +329,7 @@ export class MaterialEditor {
   showEditor(materialName: string) {
     this.setCurrentProgramsInfo();
     const shaderProgram = this.programInfoList.find(
-      programInfo => programInfo.name === materialName
+      programInfo => programInfo.name === materialName,
     );
 
     if (shaderProgram) {
@@ -357,14 +357,14 @@ export class MaterialEditor {
     } else {
       console.error(
         'can not find shader program by type, make sure you set material.type correctly',
-        materialName
+        materialName,
       );
     }
   }
 
   showEditorByMaterial(material: ShaderMaterial) {
     this.isMaterialFromThreeJs = Object.keys(MaterialEditor.shaderIDs).some(
-      k => material.type === k
+      k => material.type === k,
     );
 
     if (this.isMaterialFromThreeJs) {

@@ -1,4 +1,4 @@
-import type { WebGLUniforms } from 'three/src/renderers/webgl/WebGLUniforms';
+import type { WebGLUniforms } from 'three';
 
 export interface ThreeUniforms extends WebGLUniforms {
   id: string;
